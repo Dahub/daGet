@@ -13,12 +13,19 @@
 
 ActiveRecord::Schema.define(version: 20140723191944) do
 
-  create_table "users", force: true do |t|
-    t.string   "username"
-    t.string   "email"
-    t.string   "password"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
+	create_table "users", force: true do |t|
+		t.string   "username"
+		t.string   "email"
+		t.string   "password"
+		t.datetime "created_at"
+		t.datetime "updated_at"
+	end
+  
+	create_table "bank_accounts", force: true do |b|
+		b.integer 	"user_id"
+		b.string 	"name"
+		b.datetime 	"created_at"
+		b.datetime 	"updated_at"
+	end
+	
 end
