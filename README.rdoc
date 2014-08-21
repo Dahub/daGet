@@ -1,28 +1,31 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+daGet est une application de gestion de budget en ligne
 
-Things you may want to cover:
+ruby v2.0
+rails v4.1.4
 
-* Ruby version
+Roadmap
 
-* System dependencies
+* Table des utilisateurs (users) **OK**
 
-* Configuration
+* Insertion d’un utilisateur par défaut **OK**
 
-* Database creation
+* Création d’une page de login/mdp **OK**
 
-* Database initialization
+* Gestion d’un login en session **OK**
 
-* How to run the test suite
+* Upload sur github **OK**
 
-* Services (job queues, cache servers, search engines, etc.)
+* Table des comptes (bank_accounts) **OK**
 
-* Deployment instructions
+* Création/edition d’un compte
 
-* ...
+* Table des types d’opérations (type_actions)
+
+* Table des types d’opérations personnalisés (users_type_action) => users_id
+
+* Table des opérations (actions)
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+
