@@ -4,20 +4,21 @@ daGet est une application de gestion de budget en ligne
 
 ruby v2.0
 rails v4.1.4
+bootstrap 3
 
 Roadmap
 
-* Table des utilisateurs (users) **OK**
+* Table des utilisateurs (users) *OK*
 
-* Insertion d’un utilisateur par défaut **OK**
+* Insertion d’un utilisateur par défaut *OK*
 
-* Création d’une page de login/mdp **OK**
+* Création d’une page de login/mdp *OK*
 
-* Gestion d’un login en session **OK**
+* Gestion d’un login en session *OK*
 
-* Upload sur github **OK**
+* Upload sur github *OK*
 
-* Table des comptes (bank_accounts) **OK**
+* Table des comptes (bank_accounts) *OK*
 
 * Création/edition d’un compte
 
