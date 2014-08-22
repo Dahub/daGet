@@ -9,7 +9,8 @@
 <body>
 
 <% if session[:current_user_id] != nil %>
-	<%= link_to "logout", "logout" %>
+	<%= link_to "Mes comptes", "/bank_account/index" %>
+	<%= link_to "Déconnexion", "/home/logout" %>
 <% end %>
 
 <%= yield %>

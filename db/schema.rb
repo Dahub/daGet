@@ -20,10 +20,20 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		t.datetime "created_at"
 		t.datetime "updated_at"
 	end
+	
+	create_table "devises", force: true do |d|
+		d.string	"symbol"
+		d.string	"wording"
+		d.datetime "created_at"
+		d.datetime "updated_at"
+	end
   
 	create_table "bank_accounts", force: true do |b|
 		b.integer 	"user_id"
+		b.integer	"devise_id"
 		b.string 	"name"
+		b.decimal	"initial_amount"
+		b.decimal	"final_amount"
 		b.datetime 	"created_at"
 		b.datetime 	"updated_at"
 	end
