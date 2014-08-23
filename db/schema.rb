@@ -24,8 +24,14 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 	create_table "devises", force: true do |d|
 		d.string	"symbol"
 		d.string	"wording"
-		d.datetime "created_at"
-		d.datetime "updated_at"
+		d.datetime 	"created_at"
+		d.datetime 	"updated_at"
+	end
+	
+	create_table "operation_types", force: true do |o|
+		o.string	"wording"
+		o.datetime 	"created_at"
+		o.datetime 	"updated_at"
 	end
   
 	create_table "bank_accounts", force: true do |b|

@@ -5,4 +5,8 @@ class BankAccountController < ApplicationController
 	def index
 		@bankAccount = BankAccount.allByLoggedUser(session[:current_user_id])
 	end
+	
+	def create
+		@bankAccount = BankAccount.new
+	end
 end
