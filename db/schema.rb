@@ -34,9 +34,16 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		o.datetime 	"updated_at"
 	end
   
+	create_table "bank_account_types", force: true do |b|
+		b.string	"wording"
+		b.datetime 	"created_at"
+		b.datetime 	"updated_at"
+	end
+  
 	create_table "bank_accounts", force: true do |b|
 		b.integer 	"user_id"
 		b.integer	"devise_id"
+		b.integer 	"bank_account_type_id"
 		b.string 	"name"
 		b.decimal	"initial_amount"
 		b.decimal	"final_amount"

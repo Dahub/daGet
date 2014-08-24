@@ -7,5 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 myUser = User.create(username: 'testeur', email: 'testeur@test.com', password: '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578')
 myDevise = Devise.create(symbol: '€', wording: 'euro')
-BankAccount.create(user: myUser, devise: myDevise, initial_amount: 150, final_amount: 212.64, name: 'compte test')
+@bankAccountTypes = BankAccountType.create([{ wording: 'Compte courant' },{ wording: 'Compte épargne' }])
+BankAccount.create(user: myUser, bank_account_type: @bankAccountTypes.first, devise: myDevise, initial_amount: 150, final_amount: 212.64, name: 'compte test')
 OperationType.create([{ wording: 'débit' },{ wording: 'crédit' }])

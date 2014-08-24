@@ -2,7 +2,7 @@
 	<h1>Liste de vos comptes</h1>
 	<p>
 		Ajouter un compte : 
-		<%= link_to "Nouveau Compte", "create", class: "btn btn-primary" %>
+		<%= link_to "Nouveau Compte", "new", class: "btn btn-primary" %>
 	</p>
 <% end %>
 
@@ -10,4 +10,3 @@
 <% @bankAccount.each do |b| %>
 	<%= b.name %>&nbsp;(<%= b.smart_final_amount %>)&nbsp;<%= link_to "Modifier", "Edit" %><br />
 <% end %>
-<%= link_to "Nouveau Compte", "Create" %>
