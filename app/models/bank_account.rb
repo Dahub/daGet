@@ -17,7 +17,14 @@ class BankAccount < ActiveRecord::Base
 		@my_bank_account.rebuild_final_amount()
 		@my_bank_account.save()
 	end 
-  
+	
+	def self.updateBankAccount(params, id)
+		@my_bank_account = BankAccount.find(id)		
+		@my_bank_account.update(params)
+		@my_bank_account.rebuild_final_amount()
+		@my_bank_account.save()
+	end
+	
 	def rebuild_final_amount()
 		self.final_amount = self.initial_amount
 	end

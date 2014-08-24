@@ -1,0 +1,28 @@
+<%= form_for @bankAccount, html: {:class => "form-horizontal"} do |b| %>	 
+	<div class="form-group">		
+		<%= label "name", "Dénomination", class: "col-sm-4 control-label" %>
+		<div class="col-sm-8">
+			<%= text_field(:bankAccount, :name, class: "form-control", placeholder: "Nom du compte")%>
+		</div>			
+	</div>
+	<div class="form-group">
+		<%= label "initial_amount", "Montant initial", class: "col-sm-4 control-label" %>
+		<div class="col-sm-8">
+			<%= number_field(:bankAccount, :initial_amount, :step => 0.01, class: "form-control", placeholder: "Montant initial") %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= label "bank_account_type_id", "Type de compte", class: "col-sm-4 control-label" %>
+		<div class="col-sm-8">
+			<%= collection_select(:bankAccount, :bank_account_type_id, BankAccountType.all, :id, :wording, {}, {:class=>"form-control"}) %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= label "devise_id", "Devise", class: "col-sm-4 control-label" %>
+		<div class="col-sm-8">
+			<%= collection_select(:bankAccount, :devise_id, Devise.all, :id, :wording, {}, {:class=>"form-control"}) %>
+		</div>
+	</div>	
+	
+	<button type="submit" class="col-sm-4 col-sm-offset-2 btn btn-default">Valider</button>
+<% end %>

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do	
 	
+	resources :bank_accounts
+	
 	get 'home/login'
 	post 'home/login'
 	get 'home/index'
@@ -8,9 +10,12 @@ Rails.application.routes.draw do
 	get 'users/new'
 	post 'users/create'
 	
-	get 'bank_account/index'
-	get 'bank_account/new'
-	post 'bank_account/create'
+	
+	#get 'bank_account/index'
+	#get 'bank_account/new'
+	#post 'bank_account/create'
+	#get 'bank_account/edit'
+	#post 'bank_account/update'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
