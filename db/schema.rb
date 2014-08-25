@@ -51,4 +51,21 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		b.datetime 	"updated_at"
 	end
 	
+	create_table "operation_classifications", force: true do |a|
+		a.string	"wording"
+		a.datetime 	"created_at"
+		a.datetime 	"updated_at"
+	end
+	
+	create_table "operations", force: true do |a|
+		a.integer	"bank_account_id"
+		a.integer	"operation_type_id"
+		a.integer	"operation_classification_id"
+		a.string	"wording"
+		a.decimal	"amount"
+		a.datetime	"date_operation"
+		a.datetime 	"created_at"
+		a.datetime 	"updated_at"
+	end
+	
 end

@@ -20,9 +20,9 @@ Roadmap
 
 * Table des comptes (bank_accounts) *OK*
 
-* Création/edition d’un compte
+* Création/edition d’un compte *OK*
 
-* Table des types d’opérations (type_actions)
+* Table des types d’opérations (type_actions) 
 
 * Table des types d’opérations personnalisés (users_type_action) => users_id
 
