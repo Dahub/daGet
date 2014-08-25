@@ -14,12 +14,15 @@ class BankAccountsController < ApplicationController
 		@bankAccount = BankAccount.find(params[:id])
 	end
 	
+	def destroy
+		@bankAccount = BankAccount.find(params[:id])
+		@bankAccount.destroy
+		
+		redirect_to action: 'index'	
+	end
+	
 	def update
-		BankAccount.updateBankAccount(bankAccount_params, params[:id])
-		#@bankAccount = BankAccount.find(params[:id])		
-		#@bankAccount.update(bankAccount_params)
-		#@bankAccount.rebuild_final_amount()
-		#@bankAccount.save()
+		BankAccount.updateBankAccount(bankAccount_params, params[:id])		
 	 	redirect_to action: 'index'	
 	end
 	

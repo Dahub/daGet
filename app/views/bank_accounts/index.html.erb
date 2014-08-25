@@ -6,9 +6,13 @@
 	</p>
 <% end %>
 
-
+<table class="table">
 <% @bankAccount.each do |b| %>
-	<%= b.name %>&nbsp;(<%= b.smart_final_amount %>)&nbsp;
-	<%= link_to "Modifier", edit_bank_account_path(b) %>
-	<br />
+	<tr class="col-sm-8 col-sm-offset-2">
+		<td class="col-sm-8"><%= b.name %>&nbsp;(<%= b.smart_final_amount %>)&nbsp;</td>
+		<td><%= link_to "Modifier", edit_bank_account_path(b) %></td>
+		<td><%= link_to "Supprimer", bank_account_path(b), method: :delete, data: { confirm: "Supprimer le compte ?" }, class: "btn btn-danger btn-xs" %></td>
+	</tr>
 <% end %>
+</table>
+
