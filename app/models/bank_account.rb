@@ -27,6 +27,13 @@ class BankAccount < ActiveRecord::Base
 	end
 	
 	def rebuild_final_amount()
+		amount = self.initial_amount
+		
+		# récupération des crédits
+		#self.Operations.
+		
+		# récupération des débits
+	
 		self.final_amount = self.initial_amount
 	end
 	

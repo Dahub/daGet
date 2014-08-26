@@ -26,13 +26,7 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		d.string	"wording"
 		d.datetime 	"created_at"
 		d.datetime 	"updated_at"
-	end
-	
-	create_table "operation_types", force: true do |o|
-		o.string	"wording"
-		o.datetime 	"created_at"
-		o.datetime 	"updated_at"
-	end
+	end	
   
 	create_table "bank_account_types", force: true do |b|
 		b.string	"wording"
@@ -59,7 +53,7 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 	
 	create_table "operations", force: true do |a|
 		a.integer	"bank_account_id"
-		a.integer	"operation_type_id"
+		a.integer	"movement"
 		a.integer	"operation_classification_id"
 		a.string	"wording"
 		a.decimal	"amount"
