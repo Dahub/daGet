@@ -21,7 +21,7 @@ class HomeController < ApplicationController
 	end
 
 	def index
-		
+		@bankAccount = BankAccount.allByLoggedUser(session[:current_user_id])
 	end
   
 	def logout

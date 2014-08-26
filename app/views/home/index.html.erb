@@ -1,3 +1,10 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<% content_for :jumbo do %>
+	<br /><br />
+	<% @bankAccount.each do |b| %>
+		<%= link_to b.name + " (" + b.smart_final_amount + " )", 
+			bank_account_path(b), 
+			class: "btn btn-default btn-lg btn-block"%>
+	<% end %>
+<% end %>
+
 

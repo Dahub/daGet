@@ -1,0 +1,41 @@
+<% content_for :jumbo do %>
+	<br /><br />	
+	<h1><%= @bankAccount.name %></h1>	
+<% end %>
+<h2>Opérations</h2>
+<table>
+	<table class="table">
+		<thead>
+			<tr>
+				<td>Date</td>
+				<td>Libell&eacute;</td>
+				<td>Poste</td>
+				<td>Crédit</td>
+				<td>Débit</td>
+			</tr>
+		</thead>
+		<tbody>
+			<% @bankAccount.operations.each do |o| %>
+			<% if(o.movement == "input") %>
+				<tr class="success">
+			<% else %>
+				<tr class="warning">
+			<% end %>
+				<td><%= o.date_operation.strftime("%d/%m/%Y") %>
+				<td><%= o.wording %></td>	
+				<td><%= o.operation_classification.wording %></td>
+				<% if(o.movement == "input") %>
+					<td><%= o.amount %></td>
+				<% else %>
+					<td></td>
+				<% end %>				
+				<% if(o.movement == "output") %>
+					<td><%= o.amount %></td>
+				<% else %>
+					<td></td>
+				<% end %>
+			</tr>
+		<% end %>
+		</tbody>
+	</table>
+</table>

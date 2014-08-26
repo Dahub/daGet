@@ -22,6 +22,6 @@ Operation.create(bank_account: @bankAccounts,
 	movement: 'output', wording: 'Loyer', 
 	amount: 700, date_operation: '04/09/2014')
 Operation.create(bank_account: @bankAccounts, 
-	operation_classification: @operationClassifications.last, 
+	operation_classification: @operationClassifications[2], 
 	movement: 'output', wording: 'Divers', 
 	amount: 120.15, date_operation: '08/09/2014')
