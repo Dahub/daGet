@@ -26,6 +26,28 @@ class BankAccount < ActiveRecord::Base
 		@my_bank_account.save()
 	end
 	
+	def self.addOperation(params)
+		@my_operation = Operation.create(params)
+		if(@my_operation.movement == 'input')
+			@my_operation.bank_account.final_amount += @my_operation.amount
+		else
+			@my_operation.bank_account.final_amount -= @my_operation.amount
+		end
+		@my_operation.bank_account.save()	
+		@my_operation.bank_account_id
+	end
+	
+	def self.removeOperation(operation_id)
+		@my_operation = Operation.find(operation_id)
+		if(@my_operation.movement == 'input')
+			@my_operation.bank_account.final_amount -= @my_operation.amount
+		else
+			@my_operation.bank_account.final_amount += @my_operation.amount
+		end
+		@my_operation.bank_account.save()	
+		@my_operation.destroy
+	end
+	
 	def rebuild_final_amount()
 		amount = self.initial_amount		
 		amount = amount + self.operations.input.sum(:amount)		

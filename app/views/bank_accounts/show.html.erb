@@ -4,19 +4,35 @@
 <% end %>
 
 <h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
-	
+
+<% @operation = Operation.new(bank_account_id: @bankAccount.id) %>
+
+<%= form_for @operation, :url => {:controller => "bank_accounts", :action => "add_operation"} do |o| %>
+	<%= o.hidden_field ( :bank_account_id ) %>
+
 <table>
 	<table class="table">
 		<thead>
-			<tr>
+			<tr>			
 				<td>Date</td>
 				<td>Libell&eacute;</td>
 				<td>Poste</td>
 				<td>Crédit</td>
 				<td>Débit</td>
+				<td></td>
+				<td></td>
 			</tr>
 		</thead>
 		<tbody>
+		
+			<tr>
+				<td><%= o.date_field( :date_operation, :value => Date.today.to_s(:db), class: "form-control" ) %></td>
+				<td><%= o.text_field( :wording, class: "form-control" ) %></td>
+				<td><%= o.collection_select( :operation_classification_id, OperationClassification.all, :id, :wording, {}, { class: "form-control"} ) %></td>
+				<td><%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: "form-control"} ) %>
+				<td colspan="2"><%= o.number_field( :amount, :step => 0.01, class: "form-control", placeholder: "Montant") %></td>				
+				<td><%= o.submit "Valider", class: "btn btn-success"  %></td>
+			</tr>
 			<% @bankAccount.operations.order(:date_operation).reverse_order.each do |o| %>
 			<% if(o.movement == "input") %>
 				<tr class="success">
@@ -36,8 +52,15 @@
 				<% else %>
 					<td></td>
 				<% end %>
+				<td></td>
+				<td>			
+				<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
+					data: { confirm: "Supprimer l'opération ?" }, 
+					class: "btn btn-danger btn-xs" %></td>
 			</tr>
 		<% end %>
 		</tbody>
 	</table>	
 </table>
+
+<% end %>

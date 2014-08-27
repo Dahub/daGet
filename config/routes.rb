@@ -1,6 +1,9 @@
 Rails.application.routes.draw do	
 	
-	resources :bank_accounts, :operations
+	post 'bank_accounts/add_operation'
+	get 'bank_accounts/delete_operation'
+	
+	resources :bank_accounts, :operations	
 	
 	get 'home/login'
 	post 'home/login'
