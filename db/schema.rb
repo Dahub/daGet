@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		b.integer	"devise_id"
 		b.integer 	"bank_account_type_id"
 		b.string 	"name"
-		b.decimal	"initial_amount"
-		b.decimal	"final_amount"
+		b.decimal	"initial_amount", :precision => 10, :scale => 2
+		b.decimal	"final_amount", :precision => 10, :scale => 2
 		b.datetime 	"created_at"
 		b.datetime 	"updated_at"
 	end
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		a.integer	"movement"
 		a.integer	"operation_classification_id"
 		a.string	"wording"
-		a.decimal	"amount"
+		a.decimal	"amount", :precision => 10, :scale => 2
 		a.datetime	"date_operation"
 		a.datetime 	"created_at"
 		a.datetime 	"updated_at"
