@@ -3,7 +3,14 @@ class BankAccount < ActiveRecord::Base
 	belongs_to :devise
 	belongs_to :bank_account_type
 	has_many :operations
-  
+	
+	validates 	:name, :presence => { message: "Le nom du compte est obligatoire" }
+	validates	:initial_amount, 
+				:presence => { message: "Le montant initial est obligatoire" }, 
+				:numericality => { message: "Le montant doit être numérique" }
+	validates	:bank_account_type_id, presence: true
+	validates	:devise_id, presence: true
+	  
 	def self.allByLoggedUser(idUser)
 		User.find(idUser).bankAccounts.all
 	end 
@@ -11,13 +18,12 @@ class BankAccount < ActiveRecord::Base
 	def smart_final_amount()
 		"#{final_amount} #{devise.symbol}"
 	end 
-  
-	def self.addBankAccount(params, user_id)
-		@my_bank_account = BankAccount.new(params)
-		@my_bank_account.user = User.find(user_id)
-		@my_bank_account.rebuild_final_amount()
-		@my_bank_account.save()
-	end 
+	
+	def addBankAccount(my_user_id)
+		self.user_id = my_user_id
+		rebuild_final_amount()
+		save()
+	end
 	
 	def self.updateBankAccount(params, id)
 		@my_bank_account = BankAccount.find(id)		

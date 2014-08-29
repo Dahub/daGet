@@ -1,0 +1,16 @@
+.field_with_errors {
+  padding: 1px;
+  background-color: red;
+}
+
+.error-msg{
+	padding:15px;
+	margin-bottom:10px;
+	text-align:center;
+}
+
+.error-msg h1{
+	font-weight:bold;
+	font-size:larger;
+	margin-bottom:5px;
+}

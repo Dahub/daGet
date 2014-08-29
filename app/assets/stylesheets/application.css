@@ -13,7 +13,8 @@
  *= require_tree .
  *= require_self
  *= require bootstrap.min
-  *= require bootstrap_theme.min
+ *= require bootstrap_theme.min
+ *= require style
  */
 
  @font-face {
