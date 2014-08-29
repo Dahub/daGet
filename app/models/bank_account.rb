@@ -23,24 +23,21 @@ class BankAccount < ActiveRecord::Base
 		self.user_id = my_user_id
 		rebuild_final_amount()
 		save()
-	end
+	end	
 	
-	def self.updateBankAccount(params, id)
-		@my_bank_account = BankAccount.find(id)		
-		@my_bank_account.update(params)
-		@my_bank_account.rebuild_final_amount()
-		@my_bank_account.save()
-	end
+	def updateBankAccount()
+		rebuild_final_amount()
+		save()
+	end	
 	
-	def self.addOperation(params)
-		@my_operation = Operation.create(params)
-		if(@my_operation.movement == 'input')
-			@my_operation.bank_account.final_amount += @my_operation.amount
+	def self.addOperation(my_operation)
+		my_operation.save
+		if(my_operation.movement == 'input')
+			my_operation.bank_account.final_amount += my_operation.amount
 		else
-			@my_operation.bank_account.final_amount -= @my_operation.amount
+			my_operation.bank_account.final_amount -= my_operation.amount
 		end
-		@my_operation.bank_account.save()	
-		@my_operation.bank_account_id
+		my_operation.bank_account.save()	
 	end
 	
 	def self.removeOperation(operation_id)

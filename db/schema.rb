@@ -14,11 +14,12 @@
 ActiveRecord::Schema.define(version: 20140723191944) do
 
 	create_table "users", force: true do |t|
-		t.string   "username"
-		t.string   "email"
-		t.string   "password"
-		t.datetime "created_at"
-		t.datetime "updated_at"
+		t.string   	"username"
+		t.string	"fullname"
+		t.string   	"email"
+		t.string   	"password"
+		t.datetime 	"created_at"
+		t.datetime 	"updated_at"
 	end
 	
 	create_table "devises", force: true do |d|
@@ -39,6 +40,8 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		b.integer	"devise_id"
 		b.integer 	"bank_account_type_id"
 		b.string 	"name"
+		b.string    "account_number"
+		b.string	"account_owner"
 		b.decimal	"initial_amount", :precision => 10, :scale => 2
 		b.decimal	"final_amount", :precision => 10, :scale => 2
 		b.datetime 	"created_at"

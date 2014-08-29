@@ -11,7 +11,7 @@ class BankAccountsController < ApplicationController
 	end
 	
 	def new
-		@bankAccount = BankAccount.new
+		@bankAccount = BankAccount.new(account_owner: User.find(session[:current_user_id]).fullname)
 	end
 	
 	def edit
@@ -24,9 +24,14 @@ class BankAccountsController < ApplicationController
 		redirect_to action: 'index'	
 	end
 	
-	def update
-		BankAccount.updateBankAccount(bankAccount_params, params[:id])		
-	 	redirect_to action: 'index'	
+	def update		
+	 	@bankAccount = BankAccount.find(params[:id])
+		if(@bankAccount.update(bankAccount_params))
+			@bankAccount.updateBankAccount()
+			redirect_to action: 'index'	
+		else
+			render 'edit'
+		end
 	end
 	
 	def create		
@@ -41,8 +46,12 @@ class BankAccountsController < ApplicationController
 	
 	def add_operation
 		#render plain: params[:operation].inspect
-		@idCompte = BankAccount.addOperation(operation_params)
-		redirect_to action: 'show', :id => @idCompte
+		@my_operation = Operation.new(operation_params)
+		if(@my_operation.valid?)		
+			BankAccount.addOperation(@my_operation)		
+		end
+		@bankAccount = BankAccount.find(@my_operation.bank_account_id)
+		render 'show'
 	end
 	
 	def delete_operation		
@@ -52,7 +61,7 @@ class BankAccountsController < ApplicationController
 	
 	private
 		def bankAccount_params
-			params.require(:bank_account).permit(:name, :initial_amount, :devise_id, :bank_account_type_id)
+			params.require(:bank_account).permit(:name, :initial_amount, :devise_id, :bank_account_type_id, :account_number, :account_owner)
 		end
 		
 		def operation_params
