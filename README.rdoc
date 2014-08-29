@@ -1,4 +1,4 @@
-== README
+= README
 
 daGet est une application de gestion de budget en ligne
 
@@ -6,30 +6,39 @@ ruby v2.0
 rails v4.1.4
 bootstrap 3
 
-Roadmap
+== Version 0.1.0
 
-* Table des utilisateurs (users) *OK*
+* Un compte pré-existant : testeur / test
+* Création d'un nouveau compte
+* Edition d'un compte existant
+* Suppression d'un compte
+* Listing des comptes
+* Visualisation des opérations d'un compte
+* Ajouter une opération
+* Supprimer une opération
 
-* Insertion d’un utilisateur par défaut *OK*
+== TODO
 
-* Création d’une page de login/mdp *OK*
+==== Utilisateurs
 
-* Gestion d’un login en session *OK*
+* ajout de la notion de nom complet
+* Interface de création d'un nouvel utilisateur
 
-* Upload sur github *OK*
+==== Gestion des comptes
+====== Formulaire de création et d'édition
+* Contrôle coté client des saisies utilisateur
+* Le nom du compte est obligatoire
+* Le montant initial est obligatoire
+* Contrôle coté serveur
+* Message d'erreur si la création échoue ou si les champs obligatoires ne sont pas présents
+====== Classe bank_account
+* Rajouter le numéro de compte (champ facultatif)
+* Rajouter détenteur, par défaut, le nom de l'utilisateur courant
+====== Opération
+* Edition d'une opération existante
+* Contrôle à la saisie et coté serveur des données d'opération
 
-* Table des comptes (bank_accounts) *OK*
-
-* Création/edition d’un compte *OK*
-
-* Table des types d’opérations (type_actions) 
-
-* Table des types d’opérations personnalisés (users_type_action) => users_id
-
-* Table des opérations (actions)
-
-
-Design
+===== Design
 
 * Création Roadmap design
 
