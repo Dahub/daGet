@@ -6,9 +6,11 @@ ruby v2.0
 rails v4.1.4
 bootstrap 3
 
+version test : http://daget.herokuapp.com/home/index
+
 == Version 0.1.0
 
-* Un utilisateur pré-existant : testeur / test
+* Un utilisateur pré-existant 
 * Création d'un nouveau compte
 * Edition d'un compte existant
 * Suppression d'un compte
