@@ -39,6 +39,5 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
-group :development, :test do
-  gem "sqlite3", "~> 1.3.7", :require => "sqlite3"
-end
+gem 'pg', group: [:development, :test]
+gem 'pg', group: [:production]
