@@ -35,7 +35,7 @@ bootstrap 3
 * Rajouter détenteur, par défaut, le nom de l'utilisateur courant *OK*
 ====== Opération
 * Edition d'une opération existante
-* Contrôle à la saisie et coté serveur des données d'opération
+* Contrôle à la saisie et coté serveur des données d'opération *OK*
 
 ===== Design
 

@@ -11,7 +11,14 @@ myDevise = Devise.create(symbol: '€', wording: 'euro')
 @bankAccounts = BankAccount.create(user: myUser, bank_account_type: @bankAccountTypes.first, devise: myDevise, initial_amount: 150, final_amount: 212.64, name: 'compte test')
 
 # postes d'opérations
-@operationClassifications = OperationClassification.create([{wording: 'Salaire'}, {wording: 'Alimentation'}, {wording: 'Automobile'}, {wording: 'Loyer'}])
+@operationClassifications = OperationClassification.create([
+	{wording: 'Alimentation'}, {wording: 'Equipement maison'}, {wording: 'Téléphonie'}, {wording: 'Transports'},
+	{wording: 'Energie'}, {wording: 'Gaz'}, {wording: 'Eau'}, {wording:'Electricité'}, {wording: 'Santé'},
+	{wording: 'Remboursement santé'}, {wording: 'Loisirs'}, {wording: 'Sortie'}, {wording: 'Cadeaux'},
+	{wording: 'Scolarité'}, {wording: 'Voyage'}, {wording: 'Frais banquaires'}, {wording: 'Assurance'},
+	{wording: 'Habillement'}, {wording: 'Frais professionnels'},
+	{wording: 'Salaire'}, {wording: 'Impôts'}, {wording: 'Automobile'}, {wording: 'Loyer'}
+])
 
 Operation.create(bank_account: @bankAccounts, 
 	operation_classification: @operationClassifications.first, 

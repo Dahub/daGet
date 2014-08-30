@@ -1,10 +1,17 @@
 <% content_for :jumbo do %>
-	<br /><br />
-	<% @bankAccount.each do |b| %>
-		<%= link_to b.name + " (" + b.smart_final_amount + " )", 
-			bank_account_path(b), 
-			class: "btn btn-default btn-lg btn-block"%>
-	<% end %>
+	<h1>Liste de vos comptes</h1>
 <% end %>
 
+<h2>Comptes courants</h2>
+<% @bankAccount.where(bank_account_type_id: 1).each do |b| %>
+	<%= link_to b.name + " (" + b.smart_final_amount + " )", 
+		bank_account_path(b), 
+		class: "btn btn-default btn-lg btn-block"%>
+<% end %>
 
+<h2>Comptes épargnes</h2>
+<% @bankAccount.where.not(bank_account_type_id: 1).each do |b| %>
+	<%= link_to b.name + " (" + b.smart_final_amount + " )", 
+		bank_account_path(b), 
+		class: "btn btn-default btn-lg btn-block"%>
+<% end %>

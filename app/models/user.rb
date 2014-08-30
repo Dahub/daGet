@@ -5,7 +5,11 @@ class User < ActiveRecord::Base
 	#validates :password, :confirmation => true 
 	#validates_length_of :password, :in => 6..500, :on => :create
 	
-	has_many :bankAccounts, dependent: :destroy
+	has_many :bankAccounts, dependent: :destroy,
+		inverse_of: :user
+		
+	has_many :operations,
+		inverse_of: :user
 	
 	def self.get_by_login_and_password(login = "", password = "")
 		return User.where(:username=>login).where(:password=>Digest::SHA2.hexdigest(password)).first	

@@ -1,5 +1,7 @@
 class BankAccount < ActiveRecord::Base
-	belongs_to :user
+	belongs_to :user,
+		inverse_of: :bankAccounts
+	
 	belongs_to :devise
 	belongs_to :bank_account_type
 	has_many :operations
