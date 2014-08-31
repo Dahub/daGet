@@ -8,36 +8,29 @@ bootstrap 3
 
 version test : http://daget.herokuapp.com/home/index
 
-== Version 0.1.0
+== Version 0.1.1
 
-* Un utilisateur pré-existant 
+* Création/édition d'utilisateur
 * Création d'un nouveau compte
 * Edition d'un compte existant
 * Suppression d'un compte
 * Listing des comptes
 * Visualisation des opérations d'un compte
 * Ajouter une opération
+* Modifier une opération
 * Supprimer une opération
+
 
 == TODO
 
-==== Utilisateurs
+==== Général
 
-* ajout de la notion de nom complet *OK*
-* Interface de création d'un nouvel utilisateur *OK*
+* Page about
+* paramétrage des classes d'opération : possibilité de personnaliser
 
 ==== Gestion des comptes
-====== Formulaire de création et d'édition
-* Le nom du compte est obligatoire *OK*
-* Le montant initial est obligatoire *OK*
-* Contrôle coté serveur *OK*
-* Message d'erreur si la création échoue ou si les champs obligatoires ne sont pas présents *OK*
-====== Classe bank_account
-* Rajouter le numéro de compte (champ facultatif) *OK*
-* Rajouter détenteur, par défaut, le nom de l'utilisateur courant *OK*
-====== Opération
-* Edition d'une opération existante
-* Contrôle à la saisie et coté serveur des données d'opération *OK*
+
+* Virement de compte à compte
 
 ===== Design
 

@@ -10,57 +10,107 @@
 <%= form_for @operation, :url => {:controller => "bank_accounts", :action => "add_operation"} do |o| %>
 	<%= o.hidden_field ( :bank_account_id ) %>
 
-<table>
-	<table class="table">
-		<thead>
-			<tr>			
-				<td>Date</td>
-				<td>Libell&eacute;</td>
-				<td>Poste</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-		</thead>
-		<tbody>
-		
-			<tr>
-				<td><%= o.date_field( :date_operation, :value => Date.today.to_s(:db), class: "form-control", required: true ) %></td>
-				<td><%= o.text_field( :wording, class: "form-control", required: true ) %></td>
-				<td><%= o.collection_select( :operation_classification_id, OperationClassification.all, :id, :wording, {}, { class: "form-control"} ) %></td>
-				<td><%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: "form-control"} ) %>
-				<td colspan="2"><%= o.number_field( :amount, :step => 0.01, class: "form-control", placeholder: "Montant", required: true) %></td>				
-				<td><%= o.submit "Valider", class: "btn btn-success"  %></td>
-			</tr>
-			<% @bankAccount.operations.order(:date_operation).reverse_order.each do |o| %>
-			<% if(o.movement == "input") %>
-				<tr class="success">
-			<% else %>
-				<tr class="warning">
-			<% end %>
-				<td><%= o.date_operation.strftime("%d/%m/%Y") %>
-				<td><%= o.wording %></td>	
-				<td><%= o.operation_classification.wording %></td>
+	<table>
+		<table class="table">
+			<thead>
+				<tr>			
+					<td>Date</td>
+					<td>Libell&eacute;</td>
+					<td>Poste</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody>
+			
+				<tr>
+					<td><%= o.date_field( :date_operation, :value => Date.today.to_s(:db), class: "form-control", required: true ) %></td>
+					<td><%= o.text_field( :wording, class: "form-control", required: true ) %></td>
+					<td><%= o.collection_select( :operation_classification_id, OperationClassification.all, :id, :wording, {}, { class: "form-control"} ) %></td>
+					<td><%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: "form-control"} ) %>
+					<td colspan="2"><%= o.number_field( :amount, :step => 0.01, class: "form-control", placeholder: "Montant", required: true) %></td>				
+					<td><%= o.submit "Ajouter", class: "btn btn-success"  %></td>
+				</tr>
+				<% @bankAccount.operations.order(:date_operation).reverse_order.each do |o| %>
 				<% if(o.movement == "input") %>
-					<td><%= number_to_currency(o.amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></td>
+					<tr class="success">
 				<% else %>
-					<td></td>
-				<% end %>				
-				<% if(o.movement == "output") %>
-					<td><%= number_to_currency(o.amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></td>
-				<% else %>
-					<td></td>
+					<tr class="warning">
 				<% end %>
-				<td></td>
-				<td>			
-				<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
-					data: { confirm: "Supprimer l'opération ?" }, 
-					class: "btn btn-danger btn-xs" %></td>
-			</tr>
-		<% end %>
-		</tbody>
-	</table>	
-</table>
+					<td><%= o.date_operation.strftime("%d/%m/%Y") %>
+					<td><%= o.wording %></td>	
+					<td><%= o.operation_classification.wording %></td>
+					<% if(o.movement == "input") %>
+						<td><%= number_to_currency(o.amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></td>
+					<% else %>
+						<td></td>
+					<% end %>				
+					<% if(o.movement == "output") %>
+						<td><%= number_to_currency(o.amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></td>
+					<% else %>
+						<td></td>
+					<% end %>
+					<td>
+						<a href="#test_modal" 
+							data-toggle="modal" 
+							data-id="<%= o.id %>"
+							data-date_operation="<%= o.date_operation.strftime("%Y-%m-%d") %>"
+							data-operation_classification_id="<%= o.operation_classification_id %>"
+							data-wording="<%= o.wording %>"
+							data-movement="<%= o.movement %>"
+							data-amount="<%= o.amount %>"
+							class="open_operation_dialog btn btn-warning btn-xs">
+						Modifier</a>
+					</td>
+					<!-- <td><a href="#test_modal" data-toggle="modal" class="btn btn-warning btn-xs">Modifier</a></td> -->
+					<td>			
+					<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
+						data: { confirm: "Supprimer l'opération ?" }, 
+						class: "btn btn-danger btn-xs" %></td>
+				</tr>
+			<% end %>
+			</tbody>
+		</table>	
+	</table>
 
 <% end %>
+
+<div class="modal fade" id="test_modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Modification d'une opération</h4>
+			</div>
+			<%= form_for @operation, :url => {:controller => "bank_accounts", :action => "update_operation"} do |o| %>
+				<div class="modal-body">				
+					<%= o.hidden_field( :id ) %>
+					<%= o.date_field( :date_operation ) %>					
+					<%= o.text_field( :wording ) %>
+					<%= o.collection_select( :operation_classification_id, OperationClassification.all, :id, :wording, {}, { class: ""} ) %>
+					<%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: ""} ) %>
+					<%= o.number_field( :amount, :step => 0.01) %>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+					<button type="submit" class="btn btn-primary">Enregister</button>
+				</div>
+			<% end %>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+<script>
+	$(document).on("click", ".open_operation_dialog", function () {     
+		 $(".modal-body #operation_id").val( $(this).data('id') );
+		 $(".modal-body #operation_date_operation").val( $(this).data('date_operation') );
+		 $(".modal-body #operation_wording").val( $(this).data('wording') );
+		 $(".modal-body #operation_movement").val( $(this).data('movement') );
+		 $(".modal-body #operation_amount").val( $(this).data('amount') );
+		 $(".modal-body #operation_operation_classification_id").val( $(this).data('operation_classification_id') );		 
+	});
+</script>
+
+
