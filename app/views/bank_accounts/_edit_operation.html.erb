@@ -1,0 +1,67 @@
+﻿<div class="modal fade" id="test_modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Modification d'une opération</h4>
+			</div>
+			<%= form_for @operation, html: {:class => "form-horizontal"}, :url => {:controller => "bank_accounts", :action => "update_operation"} do |o| %>
+				<div class="modal-body">				
+					
+					<%= o.hidden_field( :id ) %>
+					
+					<div class="form-group">		
+						<%= label "date_operation", "Date d'opération", class: "col-sm-4 control-label" %>
+						<div class="col-sm-8">
+							<%= o.date_field( :date_operation, class: "form-control", required: true  ) %>					
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<%= label "wording", "Libellé", class: "col-sm-4 control-label" %>
+						<div class="col-sm-8">
+							<%= o.text_field( :wording, class: "form-control", required: true ) %>				
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<%= label "operation_classification_id", "Poste", class: "col-sm-4 control-label" %>
+						<div class="col-sm-8">
+							<%= o.collection_select( :operation_classification_id, OperationClassification.all, :id, :wording, {}, { class: "form-control"} ) %>
+						</div>
+					</div>			
+
+					<div class="form-group">
+						<%= label "movement", "Type", class: "col-sm-4 control-label" %>
+						<div class="col-sm-8">
+							<%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: "form-control"} ) %>
+						</div>
+					</div>				
+					
+					<div class="form-group">
+						<%= label "amount", "Montant", class: "col-sm-4 control-label" %>
+						<div class="col-sm-8">
+							<%= o.number_field( :amount, :step => 0.01, class: "form-control", required: true) %>
+						</div>
+					</div>				
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+					<button type="submit" class="btn btn-primary">Enregister</button>
+				</div>
+			<% end %>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+<script>
+	$(document).on("click", ".open_operation_dialog", function () {     
+		 $(".modal-body #operation_id").val( $(this).data('id') );
+		 $(".modal-body #operation_date_operation").val( $(this).data('date_operation') );
+		 $(".modal-body #operation_wording").val( $(this).data('wording') );
+		 $(".modal-body #operation_movement").val( $(this).data('movement') );
+		 $(".modal-body #operation_amount").val( $(this).data('amount') );
+		 $(".modal-body #operation_operation_classification_id").val( $(this).data('operation_classification_id') );		 
+	});
+</script>

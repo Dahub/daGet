@@ -77,40 +77,6 @@
 
 <% end %>
 
-<div class="modal fade" id="test_modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title">Modification d'une opération</h4>
-			</div>
-			<%= form_for @operation, :url => {:controller => "bank_accounts", :action => "update_operation"} do |o| %>
-				<div class="modal-body">				
-					<%= o.hidden_field( :id ) %>
-					<%= o.date_field( :date_operation ) %>					
-					<%= o.text_field( :wording ) %>
-					<%= o.collection_select( :operation_classification_id, OperationClassification.all, :id, :wording, {}, { class: ""} ) %>
-					<%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: ""} ) %>
-					<%= o.number_field( :amount, :step => 0.01) %>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-					<button type="submit" class="btn btn-primary">Enregister</button>
-				</div>
-			<% end %>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div>
-
-<script>
-	$(document).on("click", ".open_operation_dialog", function () {     
-		 $(".modal-body #operation_id").val( $(this).data('id') );
-		 $(".modal-body #operation_date_operation").val( $(this).data('date_operation') );
-		 $(".modal-body #operation_wording").val( $(this).data('wording') );
-		 $(".modal-body #operation_movement").val( $(this).data('movement') );
-		 $(".modal-body #operation_amount").val( $(this).data('amount') );
-		 $(".modal-body #operation_operation_classification_id").val( $(this).data('operation_classification_id') );		 
-	});
-</script>
+<%= render "edit_operation" %>
 
 

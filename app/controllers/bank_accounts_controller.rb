@@ -60,14 +60,8 @@ class BankAccountsController < ApplicationController
 	end
 	
 	def update_operation
-		@my_operation = Operation.find(params[:operation][:id])
-		@my_operation.update(
-			amount: params[:operation][:amount],
-			wording: params[:operation][:wording],
-			operation_classification_id: params[:operation][:operation_classification_id],
-			movement: params[:operation][:movement],
-			date_operation: params[:operation][:date_operation]
-		)
+		@my_operation = Operation.find(params[:operation][:id])		
+		@my_operation.update(operation_params)
 		redirect_to action: 'show', :id => @my_operation.bank_account_id
 	end
 	
@@ -77,6 +71,6 @@ class BankAccountsController < ApplicationController
 		end
 		
 		def operation_params
-			params.require(:operation).permit(:bank_account_id, :date_operation, :wording, :operation_classification_id, :amount, :movement, :id)
+			params.require(:operation).permit(:bank_account_id, :date_operation, :wording, :operation_classification_id, :amount, :movement)
 		end
 end
