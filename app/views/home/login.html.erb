@@ -1,11 +1,11 @@
-<h1>Home#login</h1>
-<p>Find me in app/views/home/login.html.erb</p>
-
-<%= form_for :user do |u| %>
-	<%= u.text_field :username %>
-	<br />
-	<%= u.password_field :password %>
+<% content_for :jumbo do %>
 	<br /><br />
-	<%= u.submit "Login" %>
+	<%= form_for :user do |u| %>
+		<%= u.text_field :username %>
+		<br />
+		<%= u.password_field :password %>
+		<br /><br />
+		<%= u.submit "Login" %>&nbsp;
+		<%= link_to "Créer un compte", controller: "users",action: "new" %>
+	<% end %>
 <% end %>
-	

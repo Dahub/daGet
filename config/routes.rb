@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 	post 'bank_accounts/add_operation'
 	get 'bank_accounts/delete_operation'
 	
-	resources :bank_accounts, :operations	
+	resources :bank_accounts, :operations, :users
 	
 	get 'home/login'
 	post 'home/login'

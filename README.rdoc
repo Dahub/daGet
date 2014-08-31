@@ -24,7 +24,7 @@ version test : http://daget.herokuapp.com/home/index
 ==== Utilisateurs
 
 * ajout de la notion de nom complet *OK*
-* Interface de création d'un nouvel utilisateur
+* Interface de création d'un nouvel utilisateur *OK*
 
 ==== Gestion des comptes
 ====== Formulaire de création et d'édition

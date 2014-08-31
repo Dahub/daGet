@@ -1,6 +1,6 @@
 class BankAccountsController < ApplicationController
 
-	before_filter :check_if_logged, :only => [:index, :logout]	
+	before_filter :check_if_logged
 	
 	def show
 		@bankAccount = BankAccount.find(params[:id])
