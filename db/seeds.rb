@@ -10,14 +10,22 @@ myDevise = Devise.create(symbol: '€', wording: 'euro')
 @bankAccountTypes = BankAccountType.create([{ wording: 'Compte courant' },{ wording: 'Compte épargne' }])
 @bankAccounts = BankAccount.create(user: myUser, bank_account_type: @bankAccountTypes.first, devise: myDevise, initial_amount: 150, final_amount: 212.64, name: 'compte test')
 
+OperationClassificationDefault.create([
+	{wording: 'Alimentation'},{wording: 'Santé'},{wording: 'Charges'},{wording: 'Eau'},
+	{wording: 'Gaz'},{wording: 'Electricité'},{wording: 'Loyer'},{wording: 'Remboursement prêt'},
+	{wording: 'Loisir'},{wording: 'Sortie'},{wording: 'Cadeau'},{wording: 'Don'},
+	{wording: 'Frais banquaires'},{wording: 'Scolarité'},{wording: 'Habillement'},{wording: 'Assurance'},
+	{wording: 'Impôts'},{wording: 'Salaire'},{wording: 'Securité sociale'},{wording: 'Remboursement frais'}
+])
+
 # postes d'opérations
 @operationClassifications = OperationClassification.create([
-	{wording: 'Alimentation'}, {wording: 'Equipement maison'}, {wording: 'Téléphonie'}, {wording: 'Transports'},
-	{wording: 'Energie'}, {wording: 'Gaz'}, {wording: 'Eau'}, {wording:'Electricité'}, {wording: 'Santé'},
-	{wording: 'Remboursement santé'}, {wording: 'Loisirs'}, {wording: 'Sortie'}, {wording: 'Cadeaux'},
-	{wording: 'Scolarité'}, {wording: 'Voyage'}, {wording: 'Frais banquaires'}, {wording: 'Assurance'},
-	{wording: 'Habillement'}, {wording: 'Frais professionnels'},
-	{wording: 'Salaire'}, {wording: 'Impôts'}, {wording: 'Automobile'}, {wording: 'Loyer'}
+	{wording: 'Alimentation', user_id: 1}, {wording: 'Equipement maison', user_id: 1}, {wording: 'Téléphonie', user_id: 1}, {wording: 'Transports', user_id: 1},
+	{wording: 'Energie', user_id: 1}, {wording: 'Gaz', user_id: 1}, {wording: 'Eau', user_id: 1}, {wording:'Electricité', user_id: 1}, {wording: 'Santé', user_id: 1},
+	{wording: 'Remboursement santé', user_id: 1}, {wording: 'Loisirs', user_id: 1}, {wording: 'Sortie', user_id: 1}, {wording: 'Cadeaux', user_id: 1},
+	{wording: 'Scolarité', user_id: 1}, {wording: 'Voyage', user_id: 1}, {wording: 'Frais banquaires', user_id: 1}, {wording: 'Assurance', user_id: 1},
+	{wording: 'Habillement', user_id: 1}, {wording: 'Frais professionnels', user_id: 1},
+	{wording: 'Salaire', user_id: 1}, {wording: 'Impôts', user_id: 1}, {wording: 'Automobile', user_id: 1}, {wording: 'Loyer', user_id: 1}
 ])
 
 Operation.create(bank_account: @bankAccounts, 

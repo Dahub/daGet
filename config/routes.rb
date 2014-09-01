@@ -5,7 +5,12 @@ Rails.application.routes.draw do
 	
 	post 'bank_accounts/update_operation'
 	
-	resources :bank_accounts, :operations, :users
+	post 'operation_classifications/add_operation_classification'
+	
+	resources 	:bank_accounts, 
+				:operations, 
+				:users, 
+				:operation_classifications
 	
 	get 'home/login'
 	post 'home/login'

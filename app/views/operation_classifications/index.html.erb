@@ -1,0 +1,16 @@
+﻿<% content_for :jumbo do %>
+	<h1>Liste de vos types d'opérations</h1>
+<% end %>
+
+<%= form_for :oc, :url => {:controller => "operation_classifications", :action => "add_operation_classification"}, html: {:class => "form-inline"} do |o| %>	
+	<div class="form-group">		
+		<%= label( "name", "Dénomination", class: "sr-only") %>
+		<%= o.text_field( :wording, class: "form-control", placeholder: "Nouveau poste")%>
+	</div>
+	<%= o.submit "Valider", class: "btn btn-default"  %>
+<% end %>
+<br />
+<% @operationClassifications.each do |o| %>
+	<%= o.wording %>&nbsp;<%= link_to( "supprimer", operation_classification_path(o), method: :delete, data: { confirm: "Supprimer l'opération ?" }) %><br />
+<% end %>
+

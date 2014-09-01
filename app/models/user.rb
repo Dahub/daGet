@@ -18,6 +18,8 @@
 		
 	has_many :operations,
 		inverse_of: :user
+		
+	has_many :operation_classifications
 	
 	def self.get_by_login_and_password(login = "", password = "")
 		return User.where(:username=>login).where(:password=>Digest::SHA2.hexdigest(password)).first	
@@ -27,6 +29,12 @@
 		# crypt password
 		to_add.password = Digest::SHA2.hexdigest(to_add.password)
 		to_add.password_confirmation = Digest::SHA2.hexdigest(to_add.password_confirmation)
+		
+		# add defaults operations
+		OperationClassificationDefault.all.each do |o|
+			to_add.operation_classifications << (OperationClassification.new(wording: o.wording))
+		end
+		
 		to_add.save
 	end
 end

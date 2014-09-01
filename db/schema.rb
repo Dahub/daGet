@@ -48,8 +48,15 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		b.datetime 	"updated_at"
 	end
 	
+	create_table "operation_classification_defaults", force: true do |a|
+		a.string	"wording"
+		a.datetime 	"created_at"
+		a.datetime 	"updated_at"
+	end
+	
 	create_table "operation_classifications", force: true do |a|
 		a.string	"wording"
+		a.integer	"user_id"
 		a.datetime 	"created_at"
 		a.datetime 	"updated_at"
 	end

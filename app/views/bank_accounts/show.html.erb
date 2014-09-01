@@ -28,7 +28,7 @@
 				<tr>
 					<td><%= o.date_field( :date_operation, :value => Date.today.to_s(:db), class: "form-control", required: true ) %></td>
 					<td><%= o.text_field( :wording, class: "form-control", required: true ) %></td>
-					<td><%= o.collection_select( :operation_classification_id, OperationClassification.all, :id, :wording, {}, { class: "form-control"} ) %></td>
+					<td><%= o.collection_select( :operation_classification_id, OperationClassification.where(user_id: session[:current_user_id]), :id, :wording, {}, { class: "form-control"} ) %></td>
 					<td><%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: "form-control"} ) %>
 					<td colspan="2"><%= o.number_field( :amount, :step => 0.01, class: "form-control", placeholder: "Montant", required: true) %></td>				
 					<td><%= o.submit "Ajouter", class: "btn btn-success"  %></td>
