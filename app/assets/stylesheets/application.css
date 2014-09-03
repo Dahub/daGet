@@ -13,8 +13,15 @@
  *= require_tree .
  *= require_self
  *= require bootstrap.min
- *= require bootstrap_theme.min
  *= require style
+ *= require plugins/dataTables.bootstrap
+ *= require plugins/morris.css
+ *= require plugins/social-buttons.css
+ *= require plugins/timeline.css
+ *= require plugins/metisMenu/metisMenu.min.css
+ *= require sb-admin-2
+ *= require font-awesome
+ 
  */
 
  @font-face {

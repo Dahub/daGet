@@ -42,6 +42,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 gem 'sqlite3', group: [:development, :test]
 gem 'pg', group: [:production]
 
+gem 'font-awesome-rails'
+
 group :production do
   gem 'rails_12factor'
 end

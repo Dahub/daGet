@@ -5,6 +5,7 @@ daGet est une application de gestion de budget en ligne
 ruby v2.0
 rails v4.1.4
 bootstrap 3
+sb-admin-2
 
 version test : http://daget.herokuapp.com/home/index
 
