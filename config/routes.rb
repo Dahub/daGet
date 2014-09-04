@@ -10,7 +10,8 @@ Rails.application.routes.draw do
 	resources 	:bank_accounts, 
 				:operations, 
 				:users, 
-				:operation_classifications
+				:operation_classifications,
+				:transfers
 	
 	get 'home/login'
 	post 'home/login'

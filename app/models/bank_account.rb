@@ -5,6 +5,7 @@ class BankAccount < ActiveRecord::Base
 	belongs_to :devise
 	belongs_to :bank_account_type
 	has_many :operations
+	has_many :transfers
 	
 	validates 	:name, :presence => { message: "Le nom du compte est obligatoire" }
 	validates	:initial_amount, 

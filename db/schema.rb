@@ -72,4 +72,11 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		a.datetime 	"updated_at"
 	end
 	
+	create_table "transfers", force: true do |t|
+		t.integer	"from_bank_account_id"
+		t.integer	"to_bank_account_id"
+		t.decimal	"amount", :precision => 10, :scale => 2
+		t.datetime	"date_transer"
+	end
+	
 end

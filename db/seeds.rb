@@ -8,7 +8,9 @@
 myUser = User.create(username: 'testeur', email: 'testeur@test.com', password: '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578', fullname: 'David André')
 myDevise = Devise.create(symbol: '€', wording: 'euro')
 @bankAccountTypes = BankAccountType.create([{ wording: 'Compte courant' },{ wording: 'Compte épargne' }])
-@bankAccounts = BankAccount.create(user: myUser, bank_account_type: @bankAccountTypes.first, devise: myDevise, initial_amount: 150, final_amount: 212.64, name: 'compte test')
+@bankAccounts = BankAccount.create(user: myUser, bank_account_type: @bankAccountTypes.first, devise: myDevise, initial_amount: 150, final_amount: 212.64, name: 'CCP principal')
+@bankAccounts = BankAccount.create(user: myUser, bank_account_type: @bankAccountTypes.first, devise: myDevise, initial_amount: 12, final_amount: -75, name: 'CPP de test')
+@bankAccounts = BankAccount.create(user: myUser, bank_account_type: @bankAccountTypes.last, devise: myDevise, initial_amount: 0, final_amount: 4521, name: 'Livret A')
 
 OperationClassificationDefault.create([
 	{wording: 'Alimentation'},{wording: 'Santé'},{wording: 'Charges'},{wording: 'Eau'},
