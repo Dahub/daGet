@@ -1,17 +1,81 @@
 <% content_for :jumbo do %>
-	<h1>Liste de vos comptes</h1>
+	<h1 class="page-header">Liste de vos comptes</h1>
 <% end %>
 
-<h2>Comptes courants</h2>
-<% @bankAccount.where(bank_account_type_id: 1).each do |b| %>
-	<%= link_to b.name + " (" + b.smart_final_amount + " )", 
-		bank_account_path(b), 
-		class: "btn btn-default btn-lg btn-block"%>
-<% end %>
+<div class="row">
+	<% @bankAccount.order("bank_account_type_id").each do |b| %>
 
-<h2>Comptes épargnes</h2>
-<% @bankAccount.where.not(bank_account_type_id: 1).each do |b| %>
-	<%= link_to b.name + " (" + b.smart_final_amount + " )", 
-		bank_account_path(b), 
-		class: "btn btn-default btn-lg btn-block"%>
-<% end %>
+		<div class="col-lg-3 col-md-6">
+			<% if(b.final_amount < 0) %>
+				<div class="panel panel-red">
+			<% else %>
+				<div class="panel panel-green">
+			<% end %>			
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<% if(b.bank_account_type_id == 1) %>
+								<i class="fa fa-money fa-5x"></i>
+							<% else %>						
+								<i class="fa fa-bank fa-5x"></i>
+							<% end %>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge"><%= number_to_currency(b.final_amount, unit: b.devise.symbol, format: "%n %u") %></div>
+							<div><%= b.name %>
+								<% if(b.account_number != nil) %>
+									<%= " - " + b.account_number %>
+								<% end %>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<%= link_to(raw("<div class='panel-footer'><span class='pull-left'>Accéder au compte</span><span class='pull-right'><i class='fa fa-arrow-circle-right'></i></span><div class='clearfix'></div></div>"),
+					bank_account_path(b)) %>
+			
+			</div>
+		</div>
+
+	<% end %>
+</div>
+<div class="row">
+	<% if (@bankAccount.where(bank_account_type_id: 1).count > 0) %>
+		<div class="col-lg-5">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<i class="fa fa-money fa-fw"></i>&nbsp;Comptes courants
+				</div>
+				<div class="panel-body">
+					<% @total_ccp_amount = 0 %>			
+					<% @bankAccount.where(bank_account_type_id: 1).each do |b| %>
+						<p><%= b.name %> : <%= number_to_currency(b.final_amount, unit: b.devise.symbol, format: "%n %u") %></p>
+						<% @total_ccp_amount = @total_ccp_amount + b.final_amount %>
+					<% end %>
+				</div>
+				<div class="panel-footer">
+					<strong>Total : <%= number_to_currency(@total_ccp_amount, unit: "€", format: "%n %u") %></strong>
+				</div>
+			</div>
+		</div>
+	<% end %>
+	<% if (@bankAccount.where(bank_account_type_id: 2).count > 0) %>
+		<div class="col-lg-5">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<i class="fa fa-bank fa-fw"></i>&nbsp;Comptes épargne
+				</div>
+				<div class="panel-body">
+					<% @total_epargne_amount = 0 %>			
+					<% @bankAccount.where(bank_account_type_id: 2).each do |b| %>
+						<p><%= b.name %> : <%= number_to_currency(b.final_amount, unit: b.devise.symbol, format: "%n %u") %></p>
+						<% @total_epargne_amount = @total_epargne_amount + b.final_amount %>
+					<% end %>
+				</div>
+				<div class="panel-footer">
+					<strong>Total : <%= number_to_currency(@total_epargne_amount, unit: "€", format: "%n %u") %></strong>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

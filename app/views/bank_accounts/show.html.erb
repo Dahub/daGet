@@ -1,7 +1,8 @@
 <% content_for :jumbo do %>
-	<br /><br />	
-	<h1><%= @bankAccount.name %></h1>	
+	<h1 class="page-header">Gestion du compte : <%= @bankAccount.name %></h1>	
 <% end %>
+
+<div class="row">
 
 <h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
 
@@ -77,6 +78,10 @@
 
 <% end %>
 
+</div>
+
 <%= render "edit_operation" %>
+
+
 
 

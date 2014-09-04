@@ -13,35 +13,37 @@
 
 <%= form_for @user , html: {:class => "form-horizontal"} do |u| %>
 	<div class="form-group">		
-		<%= label "fullname", "Votre nom", class: "col-sm-4 control-label" %>
+		<%= label "fullname", "Votre nom", class: "col-sm-3 control-label" %>
 		<div class="col-sm-8">
 			<%= u.text_field( :fullname, class: "form-control", placeholder: "Votre nom")%>
 		</div>	
 	</div>
 	<div class="form-group">
-		<%= label "email", "Email", class: "col-sm-4 control-label" %>
+		<%= label "email", "Email", class: "col-sm-3 control-label" %>
 		<div class="col-sm-8">
 			<%= u.text_field( :email, class: "form-control", placeholder: "Votre adresse email")%>
 		</div>				
 	</div>
 	<div class="form-group">
-		<%= label "username", "Login", class: "col-sm-4 control-label" %>
+		<%= label "username", "Login", class: "col-sm-3 control-label" %>
 		<div class="col-sm-8">
 			<%= u.text_field( :username, class: "form-control", placeholder: "Login")%>
 		</div>				
 	</div>
 	<div class="form-group">
-		<%= label "password", "Mot de passe", class: "col-sm-4 control-label" %>
+		<%= label "password", "Mot de passe", class: "col-sm-3 control-label" %>
 		<div class="col-sm-8">
 			<%= u.password_field( :password, class: "form-control", placeholder: "Saisissez un mot de passe")%>
 		</div>				
 	</div>
 	<div class="form-group">
-		<%= label "password_confirmation", "Mot de passe", class: "col-sm-4 control-label" %>
+		<%= label "password_confirmation", "Mot de passe", class: "col-sm-3 control-label" %>
 		<div class="col-sm-8">
 			<%= u.password_field( :password_confirmation, class: "form-control", placeholder: "Confirmez votre mot de passe")%>
 		</div>				
 	</div>
 	
-	<%= u.submit "Valider", class: "col-sm-4 col-sm-offset-2 btn btn-default"  %>
+	<%= u.submit "Valider", class: "btn btn-lg btn-success btn-block"  %>
+	<br />								
+	<%= link_to "Annuler", controller: "home",action: "login" %>
 <% end %>
