@@ -9,7 +9,7 @@ class BankAccountsController < ApplicationController
 		end
 		
 		if(session[:end_date] == nil)
-			session[:end_date] = Date.today.end_of_month
+			session[:end_date] = (Date.today >> 1).beginning_of_month			
 		end
 		@bankAccount = BankAccount.find(params[:id])
 	end
@@ -74,9 +74,10 @@ class BankAccountsController < ApplicationController
 	end
 	
 	def define_date
-		new_date = Time.at(params[:define_date].to_i).to_date
+		new_date = Date.new(params[:define_date_year].to_i, params[:define_date_month].to_i, 1)
+		
 		session[:begin_date] = new_date.beginning_of_month
-		session[:end_date] = new_date.beginning_of_month
+		session[:end_date] = (new_date >> 1).beginning_of_month	
 		@bankAccount = BankAccount.find(params[:id])
 		render 'show'
 	end

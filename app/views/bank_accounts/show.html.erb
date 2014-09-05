@@ -6,19 +6,16 @@
 
 <h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
 
-<!-- month choise -->
-
-
+<!-- month chose -->
 <div class="form-group input-group col-sm-2" id="datepicker" 
-		data-date="<%= (Date.parse( session[:begin_date].gsub(/, */, '-') )).strftime("%m-%Y") %>" 
-        data-date-format="mm-yyyy">
-	<input type="text" class="form-control" readonly="readonly" id="define_date" name="define_date" value="<%= (Date.parse( session[:begin_date].gsub(/, */, '-') )).strftime("%m-%Y") %>" >
+		data-date="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" 
+        data-date-format="mm-yyyy">		
+	<input type="text" class="form-control" readonly="readonly" id="define_date" name="define_date" value="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" >
 	<span class="input-group-btn">
 		<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
 		</button>
-	</span>
+	</span>	
 </div>
-
 <!-- end month choise -->
 
 <% @operation = Operation.new(bank_account_id: @bankAccount.id) %>
@@ -51,7 +48,7 @@
 				</tr>
 				<% @bankAccount.operations.where(
 					'date_operation >= ?', session[:begin_date]).where(
-					'date_operation <= ?', session[:end_date]).order(:date_operation).reverse_order.each do |o| %>
+					'date_operation < ?', session[:end_date]).order(:date_operation).reverse_order.each do |o| %>
 				<% if(o.movement == "input") %>
 					<tr class="success">
 				<% else %>
@@ -82,7 +79,6 @@
 							class="open_operation_dialog btn btn-warning btn-xs">
 						Modifier</a>
 					</td>
-					<!-- <td><a href="#test_modal" data-toggle="modal" class="btn btn-warning btn-xs">Modifier</a></td> -->
 					<td>			
 					<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
 						data: { confirm: "Supprimer l'opération ?" }, 
@@ -103,10 +99,11 @@
 $("#datepicker").datepicker({
 				viewMode: 'months',
 				minViewMode: 'months',
-				maxView: 'months',
 				format: 'mm-yyyy'
 		}).on("changeDate", function(e){				
-			post('/bank_accounts/define_date', {define_date: e.timeStamp, id: '<%= @bankAccount.id %>'});				
+			console.log(e.date.getMonth() + 1);
+			console.log(e.date.getYear());
+			post('/bank_accounts/define_date', {define_date_month: e.date.getMonth() + 1,define_date_year: e.date.getFullYear() , id: '<%= @bankAccount.id %>'});				
     });
 
 	function post(path, params, method) {
