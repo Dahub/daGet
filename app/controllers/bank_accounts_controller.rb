@@ -68,9 +68,9 @@ class BankAccountsController < ApplicationController
 	end
 	
 	def update_operation
-		@my_operation = Operation.find(params[:operation][:id])		
-		@my_operation.update(operation_params)
-		redirect_to action: 'show', :id => @my_operation.bank_account_id
+		my_operation = Operation.find(params[:operation][:id])		
+		BankAccount.updateOperation(my_operation, operation_params)
+		redirect_to action: 'show', :id => my_operation.bank_account_id
 	end
 	
 	def define_date

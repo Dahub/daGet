@@ -44,14 +44,20 @@ class BankAccount < ActiveRecord::Base
 	end
 	
 	def self.removeOperation(operation_id)
-		@my_operation = Operation.find(operation_id)
-		if(@my_operation.movement == 'input')
-			@my_operation.bank_account.final_amount -= @my_operation.amount
+		my_operation = Operation.find(operation_id)		
+		if(my_operation.movement_type == 'transfer')
+			removeTransferOperation(my_operation)
 		else
-			@my_operation.bank_account.final_amount += @my_operation.amount
-		end
-		@my_operation.bank_account.save()	
-		@my_operation.destroy
+			removeNormalOperation(my_operation)
+		end			
+	end
+	
+	def self.updateOperation(my_operation, op_params)
+		if(my_operation.movement_type == 'transfer')
+			updateTransferOperation(my_operation, op_params)
+		else
+			updateNormalOperation(my_operation, op_params)
+		end			
 	end
 	
 	def rebuild_final_amount()
@@ -59,6 +65,46 @@ class BankAccount < ActiveRecord::Base
 		amount = amount + self.operations.input.sum(:amount)		
 		amount = amount - self.operations.output.sum(:amount)	
 		self.final_amount = amount
-	end
+	end	
 	
+	private 
+		def self.removeNormalOperation(my_operation)
+			updateBankAccountAmount(my_operation)
+			my_operation.destroy
+		end
+		
+		def self.removeTransferOperation(my_operation)
+			my_transfer = Transfer.where("to_operation_id = ? or from_operation_id = ?", my_operation.id, my_operation.id).first
+			removeNormalOperation(my_transfer.to_operation)
+			removeNormalOperation(my_transfer.from_operation)
+			my_transfer.destroy
+		end
+		
+		def self.updateNormalOperation(my_operation, op_params)
+			removeNormalOperation(my_operation)
+			addOperation(Operation.new(
+					bank_account_id: op_params[:bank_account_id], 
+					date_operation: op_params[:date_operation], 
+					wording: op_params[:wording], 
+					operation_classification_id: op_params[:operation_classification_id], 
+					amount: op_params[:amount], 
+					movement: op_params[:movement], 
+					movement_type: op_params[:movement_type]				
+				))
+		end
+		
+		def self.updateTransferOperation(my_operation, op_params)
+			my_transfer = Transfer.where("to_operation_id = ? or from_operation_id = ?", my_operation.id, my_operation.id).first
+			updateNormalOperation(my_transfer.to_operation, op_params)
+			updateNormalOperation(my_transfer.from_operation, op_params)		
+		end
+		
+		def self.updateBankAccountAmount(my_operation)
+			if(my_operation.movement == 'input')
+				my_operation.bank_account.final_amount -= my_operation.amount
+			else
+				my_operation.bank_account.final_amount += my_operation.amount
+			end
+			my_operation.bank_account.save()
+		end
 end

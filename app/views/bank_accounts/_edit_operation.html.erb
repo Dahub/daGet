@@ -9,6 +9,9 @@
 				<div class="modal-body">				
 					
 					<%= o.hidden_field( :id ) %>
+					<%= o.hidden_field( :movement ) %>
+					<%= o.hidden_field( :movement_type ) %>
+					<%= o.hidden_field( :bank_account_id ) %>
 					
 					<div class="form-group">		
 						<%= label "date_operation", "Date d'opération", class: "col-sm-4 control-label" %>
@@ -24,19 +27,16 @@
 						</div>
 					</div>
 					
+					<% if(@operation.movement_type != "transfer") %>
+					
 					<div class="form-group">
 						<%= label "operation_classification_id", "Poste", class: "col-sm-4 control-label" %>
 						<div class="col-sm-8">
 							<%= o.collection_select( :operation_classification_id, OperationClassification.all, :id, :wording, {}, { class: "form-control"} ) %>
 						</div>
 					</div>			
-
-					<div class="form-group">
-						<%= label "movement", "Type", class: "col-sm-4 control-label" %>
-						<div class="col-sm-8">
-							<%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: "form-control"} ) %>
-						</div>
-					</div>				
+					
+					<% end %>					
 					
 					<div class="form-group">
 						<%= label "amount", "Montant", class: "col-sm-4 control-label" %>

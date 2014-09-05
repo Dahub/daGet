@@ -89,7 +89,7 @@
 						<td></td>
 					<% end %>
 					<% if(o.movement_type == "transfer") %>
-						<td></td><td></td>
+						<td></td>
 					<% else %>
 						<td>
 							<a href="#test_modal" 
@@ -103,12 +103,12 @@
 								class="open_operation_dialog btn btn-warning btn-xs">
 							Modifier</a>
 						</td>
-						<td>			
-						<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
-							data: { confirm: "Supprimer l'opération ?" }, 
-							class: "btn btn-danger btn-xs" %>
-						</td>
 					<% end %>
+					<td>			
+					<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
+						data: { confirm: "Supprimer l'opération ?" }, 
+						class: "btn btn-danger btn-xs" %>
+					</td>					
 				</tr>
 			<% end %>
 			</tbody>
