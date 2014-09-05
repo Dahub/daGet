@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  *= require bootstrap.min
+ *= require datepicker
  *= require style
  *= require plugins/dataTables.bootstrap
  *= require plugins/morris.css
@@ -21,7 +22,6 @@
  *= require plugins/metisMenu/metisMenu.min.css
  *= require sb-admin-2
  *= require font-awesome
- 
  */
 
  @font-face {

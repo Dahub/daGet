@@ -6,6 +6,21 @@
 
 <h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
 
+<!-- month choise -->
+
+
+<div class="form-group input-group col-sm-2" id="datepicker" 
+		data-date="<%= (Date.parse( session[:begin_date].gsub(/, */, '-') )).strftime("%m-%Y") %>" 
+        data-date-format="mm-yyyy">
+	<input type="text" class="form-control" readonly="readonly" id="define_date" name="define_date" value="<%= (Date.parse( session[:begin_date].gsub(/, */, '-') )).strftime("%m-%Y") %>" >
+	<span class="input-group-btn">
+		<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
+		</button>
+	</span>
+</div>
+
+<!-- end month choise -->
+
 <% @operation = Operation.new(bank_account_id: @bankAccount.id) %>
 
 <%= form_for @operation, :url => {:controller => "bank_accounts", :action => "add_operation"} do |o| %>
@@ -34,7 +49,9 @@
 					<td colspan="2"><%= o.number_field( :amount, :step => 0.01, class: "form-control", placeholder: "Montant", required: true) %></td>				
 					<td><%= o.submit "Ajouter", class: "btn btn-success"  %></td>
 				</tr>
-				<% @bankAccount.operations.order(:date_operation).reverse_order.each do |o| %>
+				<% @bankAccount.operations.where(
+					'date_operation >= ?', session[:begin_date]).where(
+					'date_operation <= ?', session[:end_date]).order(:date_operation).reverse_order.each do |o| %>
 				<% if(o.movement == "input") %>
 					<tr class="success">
 				<% else %>
@@ -81,6 +98,42 @@
 </div>
 
 <%= render "edit_operation" %>
+
+<script>
+$("#datepicker").datepicker({
+				viewMode: 'months',
+				minViewMode: 'months',
+				maxView: 'months',
+				format: 'mm-yyyy'
+		}).on("changeDate", function(e){				
+			post('/bank_accounts/define_date', {define_date: e.timeStamp, id: '<%= @bankAccount.id %>'});				
+    });
+
+	function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+	
+</script>
 
 
 

@@ -1,8 +1,16 @@
 class BankAccountsController < ApplicationController
 
 	before_filter :check_if_logged
+	skip_before_filter :verify_authenticity_token, :only => [:define_date]
 	
 	def show
+		if(session[:begin_date] == nil)
+			session[:begin_date] = Date.today.beginning_of_month
+		end
+		
+		if(session[:end_date] == nil)
+			session[:end_date] = Date.today.end_of_month
+		end
 		@bankAccount = BankAccount.find(params[:id])
 	end
 	
@@ -63,6 +71,14 @@ class BankAccountsController < ApplicationController
 		@my_operation = Operation.find(params[:operation][:id])		
 		@my_operation.update(operation_params)
 		redirect_to action: 'show', :id => @my_operation.bank_account_id
+	end
+	
+	def define_date
+		new_date = Time.at(params[:define_date].to_i).to_date
+		session[:begin_date] = new_date.beginning_of_month
+		session[:end_date] = new_date.beginning_of_month
+		@bankAccount = BankAccount.find(params[:id])
+		render 'show'
 	end
 	
 	private

@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 	post 'bank_accounts/add_operation'
 	get 'bank_accounts/delete_operation'
 	
+	post 'bank_accounts/define_date'
+	
 	post 'bank_accounts/update_operation'
 	
 	post 'operation_classifications/add_operation_classification'
