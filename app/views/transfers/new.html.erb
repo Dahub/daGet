@@ -1,3 +1,51 @@
-<% content_for :jumbo do %>
+﻿<% content_for :jumbo do %>
 	<h1 class="page-header">Créer un nouveau virement</h1>
 <% end %>
+
+<div class="row">
+
+	<%= form_for @transfer, html: {:class => "form-horizontal"} do |t| %>
+		<div class="form-group">		
+			<%= label "wording", "Libellé", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= t.text_field( :wording, class: "form-control", placeholder: "Libellé", required: true)%>
+			</div>	
+		</div>
+			
+		<div class="form-group">		
+			<%= label "from_bank_account_id", "Compte source", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= t.collection_select( :from_bank_account_id, 
+					BankAccount.where(user_id: session[:current_user_id]), :id, :name, 
+					{}, { class: "form-control"} ) %>
+			</div>	
+		</div>
+		
+		<div class="form-group">		
+			<%= label "to_bank_account_id", "Compte destination", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= t.collection_select( :to_bank_account_id, 
+					BankAccount.where(user_id: session[:current_user_id]), :id, :name, 
+					{}, { class: "form-control"} ) %>
+			</div>	
+		</div>
+		
+		<div class="form-group">		
+			<%= label "amount", "Montant", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= t.number_field( :amount, :step => 0.01, class: "form-control", placeholder: "Montant", required: true) %>
+			</div>
+		</div>
+		
+		<div class="form-group">		
+			<%= label "date_transfer", "Date du virement", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= t.date_field( :date_transfer, :value => Date.today.to_s(:db), class: "form-control", required: true ) %>
+			</div>
+		</div>
+		
+		<%= t.submit "Valider", class: "btn btn-lg btn-success btn-block"  %>
+		
+	<% end %>
+
+</div>

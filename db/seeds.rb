@@ -32,13 +32,13 @@ OperationClassificationDefault.create([
 
 Operation.create(bank_account: @bankAccounts, 
 	operation_classification: @operationClassifications.first, 
-	movement: 'input', wording: 'Salaire 1', 
+	movement: 'input', movement_type: 'normal', wording: 'Salaire 1', 
 	amount: 1500, date_operation: '01/09/2014')
 Operation.create(bank_account: @bankAccounts, 
 	operation_classification: @operationClassifications.last, 
-	movement: 'output', wording: 'Loyer', 
+	movement: 'output', movement_type: 'normal', wording: 'Loyer', 
 	amount: 700, date_operation: '04/09/2014')
 Operation.create(bank_account: @bankAccounts, 
 	operation_classification: @operationClassifications[2], 
-	movement: 'output', wording: 'Divers', 
+	movement: 'output', movement_type: 'normal', wording: 'Divers', 
 	amount: 120.15, date_operation: '08/09/2014')

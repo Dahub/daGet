@@ -7,22 +7,38 @@
 <h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
 
 <!-- month chose -->
-<div class="form-group input-group col-sm-2" id="datepicker" 
-		data-date="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" 
-        data-date-format="mm-yyyy">		
-	<input type="text" class="form-control" readonly="readonly" id="define_date" name="define_date" value="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" >
-	<span class="input-group-btn">
-		<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
-		</button>
-	</span>	
+<% 
+	@previous_month = ((session[:begin_date].to_date) << 1).month
+	@previous_year = ((session[:begin_date].to_date) << 1).year
+	@next_month = ((session[:begin_date].to_date) >> 1).month
+	@next_year = ((session[:begin_date].to_date) >> 1).year
+%>
+<div class="col-md-2 text-right">
+	<button class="btn btn-default" type="button" onclick="post('/bank_accounts/define_date',{define_date_month: <%= @previous_month %>,define_date_year: <%= @previous_year %> , id: '<%= @bankAccount.id %>'});">
+		<i class="fa fa-arrow-circle-left"></i>&nbsp;Mois précédent</button>
+</div>
+<div class="col-md-2">
+	<div class="form-group input-group" id="datepicker" 
+			data-date="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" 
+			data-date-format="mm-yyyy">		
+		<input type="text" class="form-control" readonly="readonly" id="define_date" name="define_date" value="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" >
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
+			</button>
+		</span>	
+	</div>
+</div>
+<div class="col-md-2">
+	<button class="btn btn-default" type="button" onclick="post('/bank_accounts/define_date',{define_date_month: <%= @next_month %>,define_date_year: <%= @next_year %> , id: '<%= @bankAccount.id %>'});">
+		Mois suivant&nbsp;<i class="fa fa-arrow-circle-right"></i></button>
 </div>
 <!-- end month choise -->
 
-<% @operation = Operation.new(bank_account_id: @bankAccount.id) %>
+<% @operation = Operation.new(bank_account_id: @bankAccount.id, movement_type: "normal") %>
 
 <%= form_for @operation, :url => {:controller => "bank_accounts", :action => "add_operation"} do |o| %>
 	<%= o.hidden_field ( :bank_account_id ) %>
-
+	<%= o.hidden_field ( :movement_type ) %>
 	<table>
 		<table class="table">
 			<thead>
@@ -56,7 +72,12 @@
 				<% end %>
 					<td><%= o.date_operation.strftime("%d/%m/%Y") %>
 					<td><%= o.wording %></td>	
-					<td><%= o.operation_classification.wording %></td>
+					
+					<% if(o.movement_type == "transfer") %>
+						<td>Virement</td>
+					<% else %>
+						<td><%= o.operation_classification.wording %></td>
+					<% end %>
 					<% if(o.movement == "input") %>
 						<td><%= number_to_currency(o.amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></td>
 					<% else %>
@@ -67,22 +88,27 @@
 					<% else %>
 						<td></td>
 					<% end %>
-					<td>
-						<a href="#test_modal" 
-							data-toggle="modal" 
-							data-id="<%= o.id %>"
-							data-date_operation="<%= o.date_operation.strftime("%Y-%m-%d") %>"
-							data-operation_classification_id="<%= o.operation_classification_id %>"
-							data-wording="<%= o.wording %>"
-							data-movement="<%= o.movement %>"
-							data-amount="<%= o.amount %>"
-							class="open_operation_dialog btn btn-warning btn-xs">
-						Modifier</a>
-					</td>
-					<td>			
-					<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
-						data: { confirm: "Supprimer l'opération ?" }, 
-						class: "btn btn-danger btn-xs" %></td>
+					<% if(o.movement_type == "transfer") %>
+						<td></td><td></td>
+					<% else %>
+						<td>
+							<a href="#test_modal" 
+								data-toggle="modal" 
+								data-id="<%= o.id %>"
+								data-date_operation="<%= o.date_operation.strftime("%Y-%m-%d") %>"
+								data-operation_classification_id="<%= o.operation_classification_id %>"
+								data-wording="<%= o.wording %>"
+								data-movement="<%= o.movement %>"
+								data-amount="<%= o.amount %>"
+								class="open_operation_dialog btn btn-warning btn-xs">
+							Modifier</a>
+						</td>
+						<td>			
+						<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
+							data: { confirm: "Supprimer l'opération ?" }, 
+							class: "btn btn-danger btn-xs" %>
+						</td>
+					<% end %>
 				</tr>
 			<% end %>
 			</tbody>

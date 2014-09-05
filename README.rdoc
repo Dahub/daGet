@@ -24,14 +24,10 @@ version test : http://daget.herokuapp.com/home/index
 
 == TODO
 
-==== Général
-
-* Page about
-* paramétrage des classes d'opération : possibilité de personnaliser
-
-==== Gestion des comptes
-
-* Virement de compte à compte
+* Mise en page générale
+* Modification et suppression d'un virement
+* Controle de saisie utilisateur
+* Controle des droits, vérification que les bank_account appartiennent bien à l'user connecté, de même pour les opérations
 
 ===== Design
 

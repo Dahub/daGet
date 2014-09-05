@@ -88,6 +88,6 @@ class BankAccountsController < ApplicationController
 		end
 		
 		def operation_params
-			params.require(:operation).permit(:bank_account_id, :date_operation, :wording, :operation_classification_id, :amount, :movement)
+			params.require(:operation).permit(:bank_account_id, :date_operation, :wording, :operation_classification_id, :amount, :movement, :movement_type)
 		end
 end

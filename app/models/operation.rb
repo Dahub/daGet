@@ -2,12 +2,13 @@ class Operation < ActiveRecord::Base
 	belongs_to :operation_classification
 	belongs_to :bank_account
 	belongs_to :operation_type
+	has_one :transfer
 	
 	belongs_to :user,
-		inverse_of: :operations
-		
+		inverse_of: :operations		
 	
 	enum movement: { output: 0, input: 1 }
+	enum movement_type: { normal: 0, transfer: 1 }
 	
 	validates	:amount,
 				:presence => { message: "Le montant est obligatoire" }, 
