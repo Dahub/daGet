@@ -1,53 +1,46 @@
-<% if @bankAccount.errors.any? %>
-  <div class="bg-danger error-msg">
-		<h1><%= pluralize(@bankAccount.errors.count, "erreur") %> dans le formulaire</h1>
-	 	
-		<% @bankAccount.errors.messages.values.each do |msg| %>
-		  <%msg.each do  |m| %>
-			  <%= m %><br />
-			<%end %>
-		<% end %>
-		
-  </div>
-<% end %>
+<div class="row">
 
-<%= form_for @bankAccount, html: {:class => "form-horizontal"} do |b| %>	 
-	<div class="form-group">		
-		<%= label "name", "Dénomination", class: "col-sm-4 control-label" %>
-		<div class="col-sm-8">
-			<%= b.text_field( :name, class: "form-control", placeholder: "Nom du compte")%>
-		</div>			
-	</div>
-	<div class="form-group">
-		<%= label "account_number", "Numéro de compte", class: "col-sm-4 control-label" %>
-		<div class="col-sm-8">
-			<%= b.text_field( :account_number, class: "form-control", placeholder: "Numéro de compte")%>
+	<%= render partial: "layouts/error", locals: {errors: @bankAccount.errors} %>
+
+	<%= form_for @bankAccount, html: {:class => "form-horizontal"} do |b| %>	 
+		<div class="form-group">		
+			<%= label "name", "Dénomination", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= b.text_field( :name, class: "form-control", placeholder: "Nom du compte")%>
+			</div>			
 		</div>
-	</div>
-	<div class="form-group">
-		<%= label "account_owner", "Détenteur du compte", class: "col-sm-4 control-label" %>
-		<div class="col-sm-8">
-			<%= b.text_field( :account_owner, class: "form-control", placeholder: "Détenteur du compte")%>
+		<div class="form-group">
+			<%= label "account_number", "Numéro de compte", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= b.text_field( :account_number, class: "form-control", placeholder: "Numéro de compte")%>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<%= label "initial_amount", "Montant initial", class: "col-sm-4 control-label" %>
-		<div class="col-sm-8">
-			<%= b.number_field( :initial_amount, :step => 0.01, class: "form-control", placeholder: "Montant initial") %>
+		<div class="form-group">
+			<%= label "account_owner", "Détenteur du compte", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= b.text_field( :account_owner, class: "form-control", placeholder: "Détenteur du compte")%>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<%= label "bank_account_type_id", "Type de compte", class: "col-sm-4 control-label" %>
-		<div class="col-sm-8">
-			<%= b.collection_select( :bank_account_type_id, BankAccountType.all, :id, :wording, {}, {:class=>"form-control"}) %>
+		<div class="form-group">
+			<%= label "initial_amount", "Montant initial", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= b.number_field( :initial_amount, :step => 0.01, class: "form-control", placeholder: "Montant initial") %>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<%= label "devise_id", "Devise", class: "col-sm-4 control-label" %>
-		<div class="col-sm-8">
-			<%= b.collection_select( :devise_id, Devise.all, :id, :wording, {}, {:class=>"form-control"}) %>
+		<div class="form-group">
+			<%= label "bank_account_type_id", "Type de compte", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= b.collection_select( :bank_account_type_id, BankAccountType.all, :id, :wording, {}, {:class=>"form-control"}) %>
+			</div>
 		</div>
-	</div>	
+		<div class="form-group">
+			<%= label "devise_id", "Devise", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= b.collection_select( :devise_id, Devise.all, :id, :wording, {}, {:class=>"form-control"}) %>
+			</div>
+		</div>	
+		
+		<%= b.submit "Valider", class: "btn btn-lg btn-success btn-block"  %>
+	<% end %>
 	
-	<%= b.submit "Valider", class: "col-sm-4 col-sm-offset-2 btn btn-default"  %>
-<% end %>
+</div>

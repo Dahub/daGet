@@ -7,8 +7,12 @@ class TransfersController < ApplicationController
 	
 	def create
 		@transfer = Transfer.new(transfer_params)
-		Transfer.add_transfer(@transfer)
+		if(@transfer.valid?)
+			Transfer.add_transfer(@transfer)
 		redirect_to action: 'index', controller: 'home'
+		else
+			render "new"
+		end		
 	end
 	
 	private

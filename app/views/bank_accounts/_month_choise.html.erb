@@ -1,0 +1,25 @@
+<% 
+	@previous_month = ((session[:begin_date].to_date) << 1).month
+	@previous_year = ((session[:begin_date].to_date) << 1).year
+	@next_month = ((session[:begin_date].to_date) >> 1).month
+	@next_year = ((session[:begin_date].to_date) >> 1).year
+%>
+<div class="col-md-2 text-right">
+	<button class="btn btn-default" type="button" onclick="post('/bank_accounts/define_date',{define_date_month: <%= @previous_month %>,define_date_year: <%= @previous_year %> , id: '<%= @bankAccount.id %>'});">
+		<i class="fa fa-arrow-circle-left"></i>&nbsp;Précédent</button>
+</div>
+<div class="col-md-4">
+	<div class="form-group input-group" id="datepicker" 
+			data-date="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" 
+			data-date-format="mm-yyyy">		
+		<input type="text" class="form-control" readonly="readonly" id="define_date" name="define_date" value="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" >
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
+			</button>
+		</span>	
+	</div>
+</div>
+<div class="col-md-2">
+	<button class="btn btn-default" type="button" onclick="post('/bank_accounts/define_date',{define_date_month: <%= @next_month %>,define_date_year: <%= @next_year %> , id: '<%= @bankAccount.id %>'});">
+		Suivant&nbsp;<i class="fa fa-arrow-circle-right"></i></button>
+</div>

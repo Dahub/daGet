@@ -4,14 +4,20 @@ class BankAccountsController < ApplicationController
 	skip_before_filter :verify_authenticity_token, :only => [:define_date]
 	
 	def show
-		if(session[:begin_date] == nil)
-			session[:begin_date] = Date.today.beginning_of_month
-		end
+		@bankAccount = BankAccount.find(params[:id])		
 		
-		if(session[:end_date] == nil)
-			session[:end_date] = (Date.today >> 1).beginning_of_month			
+		if(check_if_user_own_bank_account(@bankAccount))
+		
+			if(session[:begin_date] == nil)
+				session[:begin_date] = Date.today.beginning_of_month
+			end
+			
+			if(session[:end_date] == nil)
+				session[:end_date] = (Date.today >> 1).beginning_of_month			
+			end
+			return @bankAccount
+		
 		end
-		@bankAccount = BankAccount.find(params[:id])
 	end
 	
 	def index
@@ -24,21 +30,30 @@ class BankAccountsController < ApplicationController
 	
 	def edit
 		@bankAccount = BankAccount.find(params[:id])
+		if(check_if_user_own_bank_account(@bankAccount))
+			return @bankAccount
+		end
 	end
 	
 	def destroy
 		@bankAccount = BankAccount.find(params[:id])
-		@bankAccount.destroy		
-		redirect_to action: 'index'	
+		if(check_if_user_own_bank_account(@bankAccount))
+			@bankAccount.destroy		
+			redirect_to action: 'index'	
+		end
 	end
 	
 	def update		
 	 	@bankAccount = BankAccount.find(params[:id])
-		if(@bankAccount.update(bankAccount_params))
-			@bankAccount.updateBankAccount()
-			redirect_to action: 'index'	
-		else
-			render 'edit'
+		if(check_if_user_own_bank_account(@bankAccount))
+		
+			if(@bankAccount.update(bankAccount_params))
+				@bankAccount.updateBankAccount()
+				redirect_to action: 'index'	
+			else
+				render 'edit'
+			end
+		
 		end
 	end
 	
@@ -62,15 +77,19 @@ class BankAccountsController < ApplicationController
 		render 'show'
 	end
 	
-	def delete_operation		
-		BankAccount.removeOperation(params[:id_operation])		
-		redirect_to action: 'show', :id => params[:id_bank_account]
+	def delete_operation	
+		if(check_if_user_own_operation(params[:id_operation]))
+			BankAccount.removeOperation(params[:id_operation])		
+			redirect_to action: 'show', :id => params[:id_bank_account]
+		end
 	end
 	
 	def update_operation
-		my_operation = Operation.find(params[:operation][:id])		
-		BankAccount.updateOperation(my_operation, operation_params)
-		redirect_to action: 'show', :id => my_operation.bank_account_id
+		if(check_if_user_own_operation(params[:operation][:id]))
+			my_operation = Operation.find(params[:operation][:id])		
+			BankAccount.updateOperation(my_operation, operation_params)
+			redirect_to action: 'show', :id => my_operation.bank_account_id
+		end
 	end
 	
 	def define_date

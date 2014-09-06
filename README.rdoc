@@ -24,11 +24,6 @@ version test : http://daget.herokuapp.com/home/index
 
 == TODO
 
-* Mise en page générale
-* Modification d'un virement
-* Controle de saisie utilisateur
-* Controle des droits, vérification que les bank_account appartiennent bien à l'user connecté, de même pour les opérations
-
 ===== Design
 
 * Création Roadmap design

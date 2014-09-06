@@ -1,7 +1,7 @@
 ﻿class User < ActiveRecord::Base
 	EMAIL_REGEX = /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\z/i
 	validates 	:username, 
-				presence: { message: "Le nom d'utilisateur est obligatoire" }, 
+				presence: { message: "Le login est obligatoire" }, 
 				uniqueness: { message: "Login déjà utilisé" },
 				length: { in: 3..20, message: "Le nom d'utilisateur doit comporter entre 3 et 20 caractères" }
 	validates 	:email, 
@@ -11,6 +11,8 @@
 	validates 	:password, 
 				presence: { message: "Mot de passe obligatoire" }, 
 				confirmation: { message: "Les mots de passe ne correspondent pas" }
+	validates	:fullname,
+				presence: { message: "Nom obligatoire" }
 	#validates_length_of :password, :in => 6..500, :on => :create
 	
 	has_many :bankAccounts, dependent: :destroy,

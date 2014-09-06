@@ -7,31 +7,7 @@
 <h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
 
 <!-- month chose -->
-<% 
-	@previous_month = ((session[:begin_date].to_date) << 1).month
-	@previous_year = ((session[:begin_date].to_date) << 1).year
-	@next_month = ((session[:begin_date].to_date) >> 1).month
-	@next_year = ((session[:begin_date].to_date) >> 1).year
-%>
-<div class="col-md-2 text-right">
-	<button class="btn btn-default" type="button" onclick="post('/bank_accounts/define_date',{define_date_month: <%= @previous_month %>,define_date_year: <%= @previous_year %> , id: '<%= @bankAccount.id %>'});">
-		<i class="fa fa-arrow-circle-left"></i>&nbsp;Mois précédent</button>
-</div>
-<div class="col-md-2">
-	<div class="form-group input-group" id="datepicker" 
-			data-date="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" 
-			data-date-format="mm-yyyy">		
-		<input type="text" class="form-control" readonly="readonly" id="define_date" name="define_date" value="<%= (session[:begin_date].to_date).strftime("%m-%Y") %>" >
-		<span class="input-group-btn">
-			<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
-			</button>
-		</span>	
-	</div>
-</div>
-<div class="col-md-2">
-	<button class="btn btn-default" type="button" onclick="post('/bank_accounts/define_date',{define_date_month: <%= @next_month %>,define_date_year: <%= @next_year %> , id: '<%= @bankAccount.id %>'});">
-		Mois suivant&nbsp;<i class="fa fa-arrow-circle-right"></i></button>
-</div>
+<%= render "month_choise" %>
 <!-- end month choise -->
 
 <% @operation = Operation.new(bank_account_id: @bankAccount.id, movement_type: "normal") %>
@@ -43,13 +19,13 @@
 		<table class="table">
 			<thead>
 				<tr>			
-					<td>Date</td>
+					<td colspan="2">Date</td>
 					<td>Libell&eacute;</td>
 					<td>Poste</td>
 					<td></td>
 					<td></td>
-					<td></td>
-					<td></td>
+					<td colspan="2"></td>
+					<td colspan="2"></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -145,11 +121,8 @@ $("#datepicker").datepicker({
 			post('/bank_accounts/define_date', {define_date_month: e.date.getMonth() + 1,define_date_year: e.date.getFullYear() , id: '<%= @bankAccount.id %>'});				
     });
 
-	function post(path, params, method) {
+function post(path, params, method) {
     method = method || "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
     var form = document.createElement("form");
     form.setAttribute("method", method);
     form.setAttribute("action", path);

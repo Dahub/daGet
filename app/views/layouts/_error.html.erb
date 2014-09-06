@@ -1,0 +1,12 @@
+<% if errors.any? %>
+	<div class="bg-danger error-msg">
+		<h1><%= pluralize(errors.count, "erreur") %> dans le formulaire</h1>
+			
+		<% errors.messages.values.each do |msg| %>
+			<%msg.each do  |m| %>
+				<%= m %><br />
+			<%end %>
+		<% end %>
+			
+	</div>
+<% end %>

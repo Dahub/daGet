@@ -1,34 +1,26 @@
 <% content_for :jumbo do %>
-	<h1>Mes informations</h1>
+	<h1 class="page-header">Mes informations</h1>
 <% end %>
 
-<% if @user.errors.any? %>
-  <div class="bg-danger error-msg">
-		<h1><%= pluralize(@user.errors.count, "erreur") %> dans le formulaire</h1>
-	 	
-		<% @user.errors.messages.values.each do |msg| %>
-		  <%msg.each do  |m| %>
-			  <%= m %><br />
-			<%end %>
-		<% end %>
-		
-  </div>
-<% end %>
+<div class="row">
 
-<%= form_for @user , html: {:class => "form-horizontal"} do |u| %>
-	<div class="form-group">		
-		<%= label "fullname", "Votre nom", class: "col-sm-4 control-label" %>
-		<div class="col-sm-8">
-			<%= u.text_field( :fullname, class: "form-control", placeholder: "Votre nom")%>
-		</div>	
-	</div>
-	<div class="form-group">
-		<%= label "email", "Email", class: "col-sm-4 control-label" %>
-		<div class="col-sm-8">
-			<%= u.text_field( :email, class: "form-control", placeholder: "Votre adresse email")%>
-		</div>				
-	</div>
-	<%= u.submit "Valider", class: "col-sm-4 col-sm-offset-2 btn btn-default"  %>
-<% end %>
+	<%= render partial: "layouts/error", locals: {errors: @user.errors} %>
 
+	<%= form_for @user , html: {:class => "form-horizontal"} do |u| %>
+		<div class="form-group">		
+			<%= label "fullname", "Votre nom", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= u.text_field( :fullname, class: "form-control", placeholder: "Votre nom")%>
+			</div>	
+		</div>
+		<div class="form-group">
+			<%= label "email", "Email", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= u.text_field( :email, class: "form-control", placeholder: "Votre adresse email")%>
+			</div>				
+		</div>
+		<%= u.submit "Valider", class: "btn btn-lg btn-success btn-block"  %>
+	<% end %>
+
+</div>
 

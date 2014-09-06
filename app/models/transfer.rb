@@ -5,6 +5,14 @@ class Transfer < ActiveRecord::Base
 	belongs_to :to_operation, :class_name => 'Operation', :foreign_key => 'to_operation_id'
 	belongs_to :operation_classification
 	
+	validates	:wording,
+				:presence => { message: "Le libellé est obligatoire" }
+	validates	:amount,
+				:presence => { message: "Le montant est obligatoire" }, 
+				:numericality => { message: "Le montant doit être numérique" }
+	validates	:date_transfer,
+				:presence => { message: "La date est obligatoire" }
+	
 	def self.add_transfer(my_transfer)
 		# create from operation
 		@from_operation = Operation.new(	bank_account_id: my_transfer.from_bank_account_id,
