@@ -13,6 +13,6 @@ class TransfersController < ApplicationController
 	
 	private
 		def transfer_params
-			params.require(:transfer).permit(:wording, :amount, :to_bank_account_id, :from_bank_account_id, :date_transfer)
+			params.require(:transfer).permit(:wording, :amount, :to_bank_account_id, :from_bank_account_id, :date_transfer, :operation_classification_id)
 		end
 end

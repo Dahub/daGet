@@ -31,6 +31,13 @@
 		</div>
 		
 		<div class="form-group">		
+			<%= label "date_transfer", "Date du virement", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= t.date_field( :date_transfer, :value => Date.today.to_s(:db), class: "form-control", required: true ) %>
+			</div>
+		</div>
+		
+		<div class="form-group">		
 			<%= label "amount", "Montant", class: "col-sm-3 control-label" %>
 			<div class="col-sm-8">
 				<%= t.number_field( :amount, :step => 0.01, class: "form-control", placeholder: "Montant", required: true) %>
@@ -38,9 +45,9 @@
 		</div>
 		
 		<div class="form-group">		
-			<%= label "date_transfer", "Date du virement", class: "col-sm-3 control-label" %>
+			<%= label "operation_classification_id", "Poste", class: "col-sm-3 control-label" %>
 			<div class="col-sm-8">
-				<%= t.date_field( :date_transfer, :value => Date.today.to_s(:db), class: "form-control", required: true ) %>
+				<%= t.collection_select( :operation_classification_id, OperationClassification.where(user_id: session[:current_user_id]), :id, :wording, {}, { class: "form-control"} ) %>
 			</div>
 		</div>
 		

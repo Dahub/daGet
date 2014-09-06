@@ -55,12 +55,12 @@
 			<tbody>
 			
 				<tr>
-					<td><%= o.date_field( :date_operation, :value => Date.today.to_s(:db), class: "form-control", required: true ) %></td>
+					<td colspan="2"><%= o.date_field( :date_operation, :value => Date.today.to_s(:db), class: "form-control", required: true ) %></td>
 					<td><%= o.text_field( :wording, class: "form-control", required: true ) %></td>
 					<td><%= o.collection_select( :operation_classification_id, OperationClassification.where(user_id: session[:current_user_id]), :id, :wording, {}, { class: "form-control"} ) %></td>
 					<td><%= o.select( :movement, options_for_select([["Débit", "output"], ["Crédit", "input"]]), {}, { class: "form-control"} ) %>
 					<td colspan="2"><%= o.number_field( :amount, :step => 0.01, class: "form-control", placeholder: "Montant", required: true) %></td>				
-					<td><%= o.submit "Ajouter", class: "btn btn-success"  %></td>
+					<td colspan="2"><%= o.submit "Ajouter", class: "btn btn-success"  %></td>
 				</tr>
 				<% @bankAccount.operations.where(
 					'date_operation >= ?', session[:begin_date]).where(
@@ -70,14 +70,15 @@
 				<% else %>
 					<tr class="warning">
 				<% end %>
+					<td>
+						<% if(o.movement_type == "transfer") %>
+							<i class="fa fa-exchange"></i>
+						<% end %>
+					</td>
 					<td><%= o.date_operation.strftime("%d/%m/%Y") %>
-					<td><%= o.wording %></td>	
+					<td><%= o.wording %></td>
+					<td><%= o.operation_classification.wording %></td>
 					
-					<% if(o.movement_type == "transfer") %>
-						<td>Virement</td>
-					<% else %>
-						<td><%= o.operation_classification.wording %></td>
-					<% end %>
 					<% if(o.movement == "input") %>
 						<td><%= number_to_currency(o.amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></td>
 					<% else %>
@@ -88,27 +89,39 @@
 					<% else %>
 						<td></td>
 					<% end %>
-					<% if(o.movement_type == "transfer") %>
-						<td></td>
-					<% else %>
-						<td>
-							<a href="#test_modal" 
-								data-toggle="modal" 
-								data-id="<%= o.id %>"
-								data-date_operation="<%= o.date_operation.strftime("%Y-%m-%d") %>"
-								data-operation_classification_id="<%= o.operation_classification_id %>"
-								data-wording="<%= o.wording %>"
-								data-movement="<%= o.movement %>"
-								data-amount="<%= o.amount %>"
-								class="open_operation_dialog btn btn-warning btn-xs">
-							Modifier</a>
+					
+					<% if(o.operation_valid == "not_ok") %>
+					
+						<% if(o.movement_type == "transfer") %>
+							<td></td>
+						<% else %>
+							<td>
+								<a href="#test_modal" 
+									data-toggle="modal" 
+									data-id="<%= o.id %>"
+									data-date_operation="<%= o.date_operation.strftime("%Y-%m-%d") %>"
+									data-operation_classification_id="<%= o.operation_classification_id %>"
+									data-wording="<%= o.wording %>"
+									data-movement="<%= o.movement %>"
+									data-amount="<%= o.amount %>"
+									class="open_operation_dialog btn btn-warning btn-xs">
+								Modifier</a>
+							</td>
+						<% end %>
+						<td>			
+						<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
+							data: { confirm: "Supprimer l'opération ?" }, 
+							class: "btn btn-danger btn-xs" %>
 						</td>
+						<td>
+							<%= link_to "Clore", { :controller => "operations", :action => "check", :id => o.id, :id_bank_account => @bankAccount.id }, class: "btn btn-default btn-xs" %>
+						</td>					
+					<% else %>
+						<td colspan="3">
+							<%= link_to "Declore", { :controller => "operations", :action => "uncheck", :id => o.id, :id_bank_account => @bankAccount.id }, class: "btn btn-default btn-xs" %>
+						</td>					
 					<% end %>
-					<td>			
-					<%= link_to "Supprimer",{:controller => "bank_accounts", :action => "delete_operation", :id_operation => o.id, :id_bank_account => @bankAccount.id }, 
-						data: { confirm: "Supprimer l'opération ?" }, 
-						class: "btn btn-danger btn-xs" %>
-					</td>					
+					
 				</tr>
 			<% end %>
 			</tbody>

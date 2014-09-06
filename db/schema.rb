@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		a.integer	"bank_account_id"
 		a.integer	"movement"
 		a.integer	"movement_type"
+		a.integer	"operation_valid",	:default => 0
 		a.integer	"operation_classification_id"
 		a.string	"wording"
 		a.decimal	"amount", :precision => 10, :scale => 2
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 20140723191944) do
 		t.integer	"from_bank_account_id"
 		t.integer	"to_bank_account_id"
 		t.integer	"from_operation_id"
+		t.integer	"operation_classification_id"
 		t.integer	"to_operation_id"
 		t.decimal	"amount", :precision => 10, :scale => 2
 		t.datetime	"date_transfer"

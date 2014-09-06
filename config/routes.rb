@@ -9,6 +9,9 @@ Rails.application.routes.draw do
 	
 	post 'operation_classifications/add_operation_classification'
 	
+	get 'operations/check'
+	get 'operations/uncheck'
+	
 	resources 	:bank_accounts, 
 				:operations, 
 				:users, 

@@ -9,6 +9,7 @@ class Operation < ActiveRecord::Base
 	
 	enum movement: { output: 0, input: 1 }
 	enum movement_type: { normal: 0, transfer: 1 }
+	enum operation_valid: { not_ok: 0, ok: 1}
 	
 	validates	:amount,
 				:presence => { message: "Le montant est obligatoire" }, 
