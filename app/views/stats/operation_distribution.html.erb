@@ -3,7 +3,42 @@
 <% end %>
 
 <div class="row">
-	<div class="col-lg-6 col-lg-offset-3">
+
+	<div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Paramètre</h3>
+            </div>
+            <div class="panel-body">
+				
+				<div class="form-group">	
+					<%= label "Début", "Début", class: "col-sm-3 control-label" %>
+					<div class="col-sm-8">
+						<input class="form-control" id="startDate" name="startDate" required="required" type="date" value="<%= Date.today.beginning_of_month.to_s(:db) %>">	
+					</div>	
+				</div>
+				<br />
+				<div class="form-group">	
+					<%= label "Fin", "Fin", class: "col-sm-3 control-label" %>
+					<div class="col-sm-8">
+						<input class="form-control" id="endDate" name="endDate" required="required" type="date" value="<%= Date.today.end_of_month.to_s(:db) %>">		
+					</div>	
+				</div>
+				<br />
+				<div class="form-group">	
+					<%= label "Compte", "Compte", class: "col-sm-3 control-label" %>
+					<div class="col-sm-8">
+						<%= collection_select(:bank_account, :bank_account_id, BankAccount.where(user_id: session[:current_user_id]), :id, :name, {}, { class: "form-control"}) %>	
+					</div>	
+				</div>	
+				<br />
+				<button id="valid_btn" class="btn btn-lg btn-success btn-block">Valider</button>
+					
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-lg-10 col-lg-offset-1">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				Répartition globale
@@ -25,9 +60,18 @@
 
 	//Flot Bar Chart
 	$(document).ready(function() {			
+		loadChart();
+	});
+	
+	$('#valid_btn').on('click', function (e) {
+		loadChart();
+	});
+
+	function loadChart(){
 		$.ajax({
 			url: "/stats/operation_distribution_data",
-			type: "GET",
+			data: { startDate: $("#startDate").val(), endDate: $("#endDate").val(), bank_account_id: $("#bank_account_bank_account_id").val()},
+			type: "POST",
 			format: "json"
 		}).done(
 			function(jsonData) {
@@ -100,7 +144,5 @@
 				console.log( "error" );
 				}
 		);
-	});
-
-
+	}
 </script>

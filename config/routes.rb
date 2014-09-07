@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 	post 'users/create'
 	
 	get 'stats/operation_distribution'
-	get 'stats/operation_distribution_data'
+	post 'stats/operation_distribution_data'
 	
 	
 	#get 'bank_account/index'
