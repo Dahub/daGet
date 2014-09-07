@@ -13,7 +13,6 @@
 //= require jquery-1.11.0
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
 //= require bootstrap.min
 //= require bootstrap-datepicker
 //= require sb-admin-2
