@@ -1,5 +1,5 @@
 ﻿<% content_for :jumbo do %>
-	<h1 class="page-header">Répartition par poste</h1>
+	<h1 class="page-header">Répartition par postes</h1>
 <% end %>
 
 <div class="row">
@@ -7,7 +7,7 @@
 	<div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Paramètre</h3>
+                <h3 class="panel-title">Paramètres</h3>
             </div>
             <div class="panel-body">
 				
@@ -32,6 +32,17 @@
 					</div>	
 				</div>	
 				<br />
+				<div class="checkbox">
+					<label>
+						<%= check_box_tag "outputs", "1", true %> Débits
+					</label>
+					&nbsp;
+					<label>
+						<%= check_box_tag "inputs", "1" %> Crédits
+					</label>
+				</div>
+				
+				
 				<button id="valid_btn" class="btn btn-lg btn-success btn-block">Valider</button>
 					
 			</div>
@@ -70,14 +81,16 @@
 	function loadChart(){
 		$.ajax({
 			url: "/stats/operation_distribution_data",
-			data: { startDate: $("#startDate").val(), endDate: $("#endDate").val(), bank_account_id: $("#bank_account_bank_account_id").val()},
+			data: 	{ 	startDate: $("#startDate").val(), 
+						endDate: $("#endDate").val(), 
+						bank_account_id: $("#bank_account_bank_account_id").val(),
+						outputs: $('#outputs').prop('checked'),
+						inputs: $('#inputs').prop('checked')
+					},
 			type: "POST",
 			format: "json"
 		}).done(
 			function(jsonData) {
-	
-				console.log(jsonData);
-			
 				var i = 0;
 				var outputData = [];
 				var ticks = [];
@@ -137,12 +150,14 @@
 						color: "green"
 				   }
 				];
-				$.plot($("#flot-bar-chart"), data, options);		
+				$.plot($("#flot-bar-chart"), data, options);	
 			}
 		).fail(
 			function() {
 				console.log( "error" );
 				}
 		);
+		
+		
 	}
 </script>

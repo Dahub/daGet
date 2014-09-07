@@ -20,7 +20,7 @@ version test : http://daget.herokuapp.com/home/index
 * Ajouter une opération
 * Modifier une opération
 * Supprimer une opération
-
+* Stat d'étude de la répartition par poste
 
 == TODO
 
