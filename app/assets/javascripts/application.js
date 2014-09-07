@@ -20,12 +20,9 @@
 //= require plugins/dataTables/dataTables.bootstrap.js
 //= require plugins/dataTables/jquery.dataTables.js
 //= require plugins/flot/excanvas.min.js
-//= require plugins/flot/flot-data.js
 //= require plugins/flot/jquery.flot.js
 //= require plugins/flot/jquery.flot.pie.js
 //= require plugins/flot/jquery.flot.resize.js
 //= require plugins/flot/jquery.flot.tooltip.min.js
 //= require plugins/metisMenu/metisMenu.min.js
-//= require plugins/morris/morris.min.js
-//= require plugins/morris/morris-data.js
-//= require plugins/morris/raphael.min.js
+

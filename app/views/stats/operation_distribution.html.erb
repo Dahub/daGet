@@ -1,0 +1,106 @@
+﻿<% content_for :jumbo do %>
+	<h1 class="page-header">Répartition par poste</h1>
+<% end %>
+
+<div class="row">
+	<div class="col-lg-6 col-lg-offset-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Répartition globale
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<div class="flot-chart">
+					<div class="flot-chart-content" id="flot-bar-chart" style="padding: 0px; position: relative;">
+					</div>
+				</div>
+			</div>
+			<!-- /.panel-body -->
+		</div>
+		<!-- /.panel -->
+	</div>
+</div>
+
+<script>
+
+	//Flot Bar Chart
+	$(document).ready(function() {			
+		$.ajax({
+			url: "/stats/operation_distribution_data",
+			type: "GET",
+			format: "json"
+		}).done(
+			function(jsonData) {
+	
+				console.log(jsonData);
+			
+				var i = 0;
+				var outputData = [];
+				var ticks = [];
+				for(var propertyName in jsonData.output) {		
+					outputData.push([i, jsonData.output[propertyName]]);					
+					ticks.push([i, propertyName]);					
+					i++;
+				}	
+				
+				var inputData = [];
+				for(var propertyName in jsonData.input) {	
+					var propertyFind = 0;					
+					// try to find index in ticks
+					for(var t = 0;t<ticks.length;t++){						
+						if(ticks[t][1] == propertyName){
+							i = ticks[t][0];
+							propertyFind = 1;							
+						}
+					}
+					if(propertyFind == 0){
+						i = ticks.length;
+						ticks.push([i, propertyName]);	
+					}
+				
+					inputData.push([i, jsonData.input[propertyName]]);					
+				}	
+				
+				var options = {
+					xaxis: {
+						ticks: ticks
+					},
+					yaxis: {                
+						tickFormatter: function (v, axis) {
+							return v + "€";
+						}
+					},    
+					series: {
+						bars: {
+							show: true
+						}
+					},
+					bars: {
+						align: "center",
+						barWidth: 0.5
+					}
+				};	
+				
+				var data = [
+					{
+						label: "Débit",
+						data: outputData,
+						color: "orange"
+					},
+					{
+					   label: "Crédit",
+						data: inputData,
+						color: "green"
+				   }
+				];
+				$.plot($("#flot-bar-chart"), data, options);		
+			}
+		).fail(
+			function() {
+				console.log( "error" );
+				}
+		);
+	});
+
+
+</script>

@@ -61,6 +61,14 @@
 					<li>
 						<%= link_to(raw("<i class='fa fa-exchange fa-fw'></i> Virements"), new_transfer_path) %>
 					</li>
+					<li>
+						<a href="#"><i class="fa fa-bar-chart"></i> Statistiques<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<%= link_to("Répartition par poste", "/stats/operation_distribution" ) %>
+							</li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>
