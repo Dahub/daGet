@@ -16,8 +16,8 @@
 //= require bootstrap.min
 //= require bootstrap-datepicker
 //= require sb-admin-2
-//= require plugins/dataTables/dataTables.bootstrap.js
 //= require plugins/dataTables/jquery.dataTables.js
+//= require plugins/dataTables/dataTables.bootstrap.js
 //= require plugins/flot/excanvas.min.js
 //= require plugins/flot/jquery.flot.js
 //= require plugins/flot/jquery.flot.pie.js
