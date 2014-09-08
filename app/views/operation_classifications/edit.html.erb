@@ -1,0 +1,20 @@
+﻿<% content_for :jumbo do %>
+	<h1 class="page-header">Libellé du poste</h1>
+<% end %>
+
+<div class="row">
+
+	<%= render partial: "layouts/error", locals: {errors: @oc.errors} %>
+
+	<%= form_for @oc , html: {:class => "form-horizontal"} do |u| %>
+		
+		<div class="form-group">		
+			<%= label "wording", "Libellé", class: "col-sm-3 control-label" %>
+			<div class="col-sm-8">
+				<%= u.text_field( :wording, class: "form-control", placeholder: "Libellé", required: true )%>
+			</div>	
+		</div>		
+		<%= u.submit "Valider", class: "btn btn-lg btn-success btn-block"  %>
+	<% end %>
+
+</div>

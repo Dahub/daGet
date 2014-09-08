@@ -9,7 +9,7 @@ sb-admin-2
 
 version test : http://daget.herokuapp.com/home/index
 
-== Version 0.1.1
+== Version 0.2.0
 
 * Création/édition d'utilisateur
 * Création d'un nouveau compte

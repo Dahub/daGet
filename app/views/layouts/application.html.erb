@@ -50,7 +50,7 @@
 					<li>
 						<a href="#"><i class="fa fa-calculator fa-fw"></i> Comptes<span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
-							<% User.find(session[:current_user_id]).bankAccounts.all.order(:name).each do |b| %>		
+							<% User.find(session[:current_user_id]).bankAccounts.all.order(:bank_account_type_id).order(:name).each do |b| %>		
 								<li>
 									<%= link_to(b.name , bank_account_path(b)) %>
 								</li>

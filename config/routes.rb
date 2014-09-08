@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 	
 	post 'bank_accounts/update_operation'
 	
+	post 'operation_classifications/edit'
+	post 'operation_classifications/update'
 	post 'operation_classifications/add_operation_classification'
 	
 	get 'operations/check'

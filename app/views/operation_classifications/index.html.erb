@@ -4,11 +4,13 @@
 
 <div class="row">
 
-	<%= form_for :oc, :url => {:controller => "operation_classifications", :action => "add_operation_classification"}, html: {:class => "form-horizontal"} do |o| %>	
+	<%= render partial: "layouts/error", locals: {errors: @oc.errors} %>
+
+	<%= form_for @oc, :url => {:controller => "operation_classifications", :action => "add_operation_classification"}, html: {:class => "form-horizontal"} do |o| %>	
 		<div class="form-group">		
 			<%= label( "name", "Dénomination", class: "col-sm-3 control-label") %>
 			<div class="col-sm-8">
-				<%= o.text_field( :wording, class: "form-control", placeholder: "Nouveau poste", required: true)%>
+				<%= o.text_field( :wording, class: "form-control", placeholder: "Nouveau poste",  required: true)%>
 			</div>
 		</div>
 		<%= o.submit "Valider", class: "btn btn-lg btn-success btn-block"  %>
@@ -21,8 +23,9 @@
 		<div class="form-group">		
 			<%= label "compte", o.wording, class: "col-sm-3 control-label" %>
 			<div class="col-sm-8">
-				<% if(o.operations.count == 0) %>
-					&nbsp;<%= link_to( "supprimer", operation_classification_path(o), method: :delete, data: { confirm: "Supprimer l'opération ?" }, class: "btn btn-danger") %>
+				<%= link_to( "Modifier", edit_operation_classification_path(o), class: "btn btn-warning") %>
+				<% if(o.operations.count == 0) %>					
+					&nbsp;<%= link_to( "Supprimer", operation_classification_path(o), method: :delete, data: { confirm: "Supprimer l'opération ?" }, class: "btn btn-danger") %>
 				<% end %>
 			</div>
 		
