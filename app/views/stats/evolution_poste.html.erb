@@ -9,12 +9,11 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Paramètres</h3>
             </div>
-            <div class="panel-body">
-				
+            <div class="panel-body">				
 				<div class="form-group">	
 					<%= label "Début", "Début", class: "col-sm-3 control-label" %>
 					<div class="col-sm-8">
-						<input class="form-control" id="startDate" name="startDate" required="required" type="date" value="<%= Date.today.beginning_of_month.to_s(:db) %>">	
+						<input class="form-control" id="startDate" name="startDate" required="required" type="date" value="<%= (Date.today << 11).beginning_of_month.to_s(:db) %>">	
 					</div>	
 				</div>
 				<br />
@@ -32,16 +31,14 @@
 					</div>	
 				</div>	
 				<br />
-				<div class="checkbox">
-					<label>
-						<%= check_box_tag "outputs", "1", true %> Débits
-					</label>
-					&nbsp;
-					<label>
-						<%= check_box_tag "inputs", "1" %> Crédits
-					</label>
-				</div>
-				
+				<div class="form-group">	
+					<%= label "Poste", "Poste", class: "col-sm-3 control-label" %>
+					<div class="col-sm-8">
+						<%= collection_select(:operation_classification, :operation_classification_id, OperationClassification.
+						where(user_id: session[:current_user_id]).order(:wording), :id, :wording, {}, { class: "form-control"}) %>	
+					</div>	
+				</div>					
+				<br />
 				
 				<button id="valid_btn" class="btn btn-lg btn-success btn-block">Valider</button>
 					
@@ -52,7 +49,7 @@
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Répartition globale
+				Evolution du poste
 			</div>
 			<!-- /.panel-heading -->
 			<div class="panel-body">
@@ -68,8 +65,8 @@
 </div>
 
 <script>
+//Flot Bar Chart
 
-	//Flot Bar Chart
 	$(document).ready(function() {			
 		loadChart();
 	});
@@ -79,85 +76,24 @@
 	});
 
 	function loadChart(){
+	
 		$.ajax({
-			url: "/stats/operation_distribution_data",
+			url: "/stats/evolution_poste_data",
 			data: 	{ 	startDate: $("#startDate").val(), 
 						endDate: $("#endDate").val(), 
-						bank_account_id: $("#bank_account_bank_account_id").val(),
-						outputs: $('#outputs').prop('checked'),
-						inputs: $('#inputs').prop('checked')
+						operation_classification_id : $("#operation_classification_operation_classification_id").val(),
+						bank_account_id: $("#bank_account_bank_account_id").val()
 					},
 			type: "POST",
 			format: "json"
 		}).done(
 			function(jsonData) {
-				var i = 0;
-				var outputData = [];
-				var ticks = [];
-				for(var propertyName in jsonData.output) {		
-					outputData.push([i, jsonData.output[propertyName]]);					
-					ticks.push([i, propertyName]);					
-					i++;
-				}	
-				
-				var inputData = [];
-				for(var propertyName in jsonData.input) {	
-					var propertyFind = 0;					
-					// try to find index in ticks
-					for(var t = 0;t<ticks.length;t++){						
-						if(ticks[t][1] == propertyName){
-							i = ticks[t][0];
-							propertyFind = 1;							
-						}
-					}
-					if(propertyFind == 0){
-						i = ticks.length;
-						ticks.push([i, propertyName]);	
-					}
-				
-					inputData.push([i, jsonData.input[propertyName]]);					
-				}	
-				
-				var options = {
-					xaxis: {
-						ticks: ticks
-					},
-					yaxis: {                
-						tickFormatter: function (v, axis) {
-							return v + "€";
-						}
-					},    
-					series: {
-						bars: {
-							show: true
-						}
-					},
-					bars: {
-						align: "center",
-						barWidth: 0.5
-					}
-				};	
-				
-				var data = [
-					{
-						label: "Débit",
-						data: outputData,
-						color: "orange"
-					},
-					{
-					   label: "Crédit",
-						data: inputData,
-						color: "green"
-				   }
-				];
-				$.plot($("#flot-bar-chart"), data, options);	
+				console.log(jsonData);
 			}
 		).fail(
 			function() {
 				console.log( "error" );
-				}
-		);
-		
-		
-	}
+				})
+				
+		};		
 </script>
