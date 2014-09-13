@@ -1,5 +1,5 @@
 ﻿<% content_for :jumbo do %>
-	<h1 class="page-header">Répartition par postes</h1>
+	<h1 class="page-header">Evolution d'un poste</h1>
 <% end %>
 
 <div class="row">
@@ -9,21 +9,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Paramètres</h3>
             </div>
-            <div class="panel-body">				
-				<div class="form-group">	
-					<%= label "Début", "Début", class: "col-sm-3 control-label" %>
-					<div class="col-sm-8">
-						<input class="form-control" id="startDate" name="startDate" required="required" type="date" value="<%= (Date.today << 11).beginning_of_month.to_s(:db) %>">	
-					</div>	
-				</div>
-				<br />
-				<div class="form-group">	
-					<%= label "Fin", "Fin", class: "col-sm-3 control-label" %>
-					<div class="col-sm-8">
-						<input class="form-control" id="endDate" name="endDate" required="required" type="date" value="<%= Date.today.end_of_month.to_s(:db) %>">		
-					</div>	
-				</div>
-				<br />
+            <div class="panel-body">
 				<div class="form-group">	
 					<%= label "Compte", "Compte", class: "col-sm-3 control-label" %>
 					<div class="col-sm-8">
@@ -45,7 +31,8 @@
 			</div>
 		</div>
 	</div>
-	
+</div>
+<div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -79,8 +66,7 @@
 	
 		$.ajax({
 			url: "/stats/evolution_poste_data",
-			data: 	{ 	startDate: $("#startDate").val(), 
-						endDate: $("#endDate").val(), 
+			data: 	{ 	
 						operation_classification_id : $("#operation_classification_operation_classification_id").val(),
 						bank_account_id: $("#bank_account_bank_account_id").val()
 					},
@@ -88,7 +74,39 @@
 			format: "json"
 		}).done(
 			function(jsonData) {
-				console.log(jsonData);
+				var chartData = [];
+				for(var i = 0; i<jsonData.length; i++){					
+					chartData.push([jsonData[i][0] * 1000, jsonData[i][1]]);
+				}
+				
+				console.log(chartData);
+				
+				var options = {
+					xaxis: {
+						mode: "time",
+						timeformat: "%b %y", 
+						minTickSize: [1, "month"]
+					},
+					yaxis: {                
+						tickFormatter: function (v, axis) {
+							return v + "€";
+						}
+					},    
+					series: {            
+						lines: {
+							show: true,
+							fill: true
+						}
+					}
+				};	
+				
+				var data = [
+					{
+						data: chartData,
+						color: "orange"
+					}
+				];
+				$.plot($("#flot-bar-chart"), data, options);	
 			}
 		).fail(
 			function() {

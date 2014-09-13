@@ -30,8 +30,8 @@ class StatsController < ApplicationController
 	def evolution_poste_data
 		@my_bank_account = BankAccount.find(params[:bank_account_id])
 		if(check_if_user_own_bank_account(@my_bank_account))
-			@my_operations = @my_bank_account.operations.where('date_operation >= ?', Date.parse(params[:startDate])).
-									where('date_operation < ?', Date.parse(params[:endDate])).
+			@my_operations = @my_bank_account.operations.where('date_operation >= ?', (Date.today << 11).beginning_of_month).
+									where('date_operation < ?', Date.today.end_of_month).
 									where('operation_classification_id = ?', params[:operation_classification_id]).output.
 									group_by {|o| o.date_operation.beginning_of_month}
 			
@@ -39,11 +39,10 @@ class StatsController < ApplicationController
 			
 			@my_operations.keys.sort.each do |month|
 				@to_push = Array.new
-				@to_push.push(month)
+				@to_push.push(month.utc.to_i)
 				@to_push.push(@my_operations[month].collect(&:amount).sum)
 				@my_array.push(@to_push)
-			end
-			
+			end			
 			
 			render :json =>  @my_array
 							
