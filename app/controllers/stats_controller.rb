@@ -1,6 +1,20 @@
 class StatsController < ApplicationController
 	before_filter :check_if_logged
 
+	def input_output_data
+		@my_bank_account = BankAccount.find(params[:bank_account_id])
+		if(check_if_user_own_bank_account(@my_bank_account))
+			render :json => {
+								:output => 	@my_bank_account.operations.where('date_operation >= ?', Date.parse(params[:month]).beginning_of_month).
+											where('date_operation < ?', (Date.parse(params[:month]) >> 1).beginning_of_month).output.
+											joins(:operation_classification).sum(:amount),
+								:input => 	@my_bank_account.operations.where('date_operation >= ?', Date.parse(params[:month]).beginning_of_month).
+											where('date_operation < ?', (Date.parse(params[:month]) >> 1).beginning_of_month).input.
+											joins(:operation_classification).sum(:amount)	
+							}			
+		end
+	end
+	
 	def operation_distribution
 	end
 	

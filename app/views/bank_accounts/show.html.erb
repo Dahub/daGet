@@ -4,7 +4,23 @@
 
 <div class="row">
 
-<h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
+	<div class="col-md-6">
+		<div class="panel-body">
+			<div class="flot-chart" style="height:70px;">
+				<div class="flot-chart-content" id="flot-bar-chart" style="padding: 0px; position: relative;">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
+	</div>
+
+</div>
+
+<hr />
+
+<div class="row">
 
 <!-- month chose -->
 <%= render "month_choise" %>
@@ -116,8 +132,8 @@ $("#datepicker").datepicker({
 				minViewMode: 'months',
 				format: 'mm-yyyy'
 		}).on("changeDate", function(e){				
-			console.log(e.date.getMonth() + 1);
-			console.log(e.date.getYear());
+			//console.log(e.date.getMonth() + 1);
+			//console.log(e.date.getYear());
 			post('/bank_accounts/define_date', {define_date_month: e.date.getMonth() + 1,define_date_year: e.date.getFullYear() , id: '<%= @bankAccount.id %>'});				
     });
 
@@ -133,7 +149,6 @@ function post(path, params, method) {
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", key);
             hiddenField.setAttribute("value", params[key]);
-
             form.appendChild(hiddenField);
          }
     }
@@ -141,6 +156,65 @@ function post(path, params, method) {
     document.body.appendChild(form);
     form.submit();
 }
+
+$(document).ready(function() {			
+		loadChart();
+	});
+	
+function loadChart(){	
+		$.ajax({
+			url: "/stats/input_output_data",
+			data: 	{ 	
+						month : '<%= session[:begin_date] %>',
+						bank_account_id: <%= @bankAccount.id %>
+					},
+			type: "POST",
+			format: "json"
+		}).done(
+			function(jsonData) {
+				var data = [{data: [[jsonData.input,1]], color: "green"},             
+						{data: [[jsonData.output,0]], color: "orange"}];				
+				
+				var ticks = [
+						[1, "Revenus " + jsonData.input + " €"],
+						[0, "Dépenses " + jsonData.output + " €"]
+					];
+				
+				var options = {	
+						series: {
+							bars: {
+								show: true
+							}
+						},
+						bars: {
+							align: "center",
+							barWidth: 0.8,
+							horizontal: true							
+						},		
+						yaxis: {		
+							ticks: ticks,
+							color: "black",
+							tickColor: "#ffffff",
+							axisLabelFontSizePixels: 12,
+							axisLabelFontFamily: 'Verdana, Arial',
+							axisLabelPadding: 3
+						},
+						xaxis: {   
+							ticks: 0
+						},
+						grid: {							
+							borderColor: {top: "#ffffff", left: "#ffffff"}
+						}
+					};					
+				
+				$.plot($("#flot-bar-chart"), data, options);				
+			}
+		).fail(
+			function() {
+				console.log( "error" );
+				})
+				
+		};		
 	
 </script>
 

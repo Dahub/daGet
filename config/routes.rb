@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 	post 'stats/operation_distribution_data'
 	get '/stats/evolution_poste'
 	post '/stats/evolution_poste_data'
+	post '/stats/input_output_data'
 	
 	
 	#get 'bank_account/index'
