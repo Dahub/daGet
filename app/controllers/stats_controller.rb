@@ -30,20 +30,34 @@ class StatsController < ApplicationController
 	def evolution_poste_data
 		@my_bank_account = BankAccount.find(params[:bank_account_id])
 		if(check_if_user_own_bank_account(@my_bank_account))
-			@my_operations = @my_bank_account.operations.where('date_operation >= ?', (Date.today << 11).beginning_of_month).
+			@my_output_operations = @my_bank_account.operations.where('date_operation >= ?', (Date.today << 11).beginning_of_month).
 									where('date_operation < ?', Date.today.end_of_month).
 									where('operation_classification_id = ?', params[:operation_classification_id]).output.
-									group_by {|o| o.date_operation.beginning_of_month}
-			
-			@my_array = Array.new
-			
-			@my_operations.keys.sort.each do |month|
+									group_by {|o| o.date_operation.beginning_of_month.to_date.to_time.utc.to_i}
+									
+			@my_input_operations = @my_bank_account.operations.where('date_operation >= ?', (Date.today << 11).beginning_of_month).
+						where('date_operation < ?', Date.today.end_of_month).
+						where('operation_classification_id = ?', params[:operation_classification_id]).input.
+						group_by {|o| o.date_operation.beginning_of_month.to_date.to_time.utc.to_i}
+			@my_array = Array.new		
+
+			i = 0 
+			until i == 12
+				@my_date = (Date.today << i).beginning_of_month.to_date.to_time.utc.to_i			
 				@to_push = Array.new
-				@to_push.push(month.utc.to_i)
-				@to_push.push(@my_operations[month].collect(&:amount).sum)
+				@to_push.push(@my_date)
+				@my_sum = 0
+				if @my_input_operations[@my_date] != nil
+					@my_sum -= @my_input_operations[@my_date].collect(&:amount).sum
+				end
+				if @my_output_operations[@my_date] != nil
+					@my_sum += @my_output_operations[@my_date].collect(&:amount).sum
+				end
+				@to_push.push(@my_sum)
 				@my_array.push(@to_push)
-			end			
-			
+				i += 1 
+			end 			
+						
 			render :json =>  @my_array
 							
 		end
