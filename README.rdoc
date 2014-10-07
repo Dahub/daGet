@@ -24,7 +24,10 @@ version test : http://daget.herokuapp.com/home/index
 
 == TODO
 
-===== Design
-
-* Création Roadmap design
-
+* Classement des opération par date + Id
+* Graphique répartition par poste : Additionner les débit + crédit
+* écran de compte : afficher le mois courant de façon + lisible
+* Solde : afficher le solde des opérations closes uniquement en + sur la page de compte
+* Notion de compte partagé : possibilité de donner les droits de lecture/écriture à une autre personne
+* Limiter le nombre d'inscrits à 5
+* afficher les montant sur les barres des histogrammes
