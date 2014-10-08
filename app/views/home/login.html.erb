@@ -23,8 +23,12 @@
 								-->
                                 <!-- Change this to a button or input when using this as a form -->
 								<%= u.submit("Login", class:"btn btn-lg btn-success btn-block") %>  
-								<br />								
-								<%= link_to "Créer un compte", controller: "users",action: "new" %>
+								<br />	
+								<% if User.count <= 5 %>
+									<%= link_to "Créer un compte", controller: "users",action: "new" %>
+								<% else %>
+									Nombre maximum d'utilisateurs atteint 
+								<% end %>
                             </fieldset>
                         <% end %>
                     </div>

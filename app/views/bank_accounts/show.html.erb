@@ -1,5 +1,7 @@
 <% content_for :jumbo do %>
-	<h1 class="page-header">Gestion du compte : <%= @bankAccount.name %></h1>	
+	<h1 class="page-header"><%= @bankAccount.name %> | 
+		<%= I18n.l session[:begin_date].to_date, :format => "%B %Y" %>
+	</h1>	
 <% end %>
 
 <div class="row">
@@ -56,7 +58,7 @@
 				</tr>
 				<% @bankAccount.operations.where(
 					'date_operation >= ?', session[:begin_date]).where(
-					'date_operation < ?', session[:end_date]).order(:date_operation).reverse_order.each do |o| %>
+					'date_operation < ?', session[:end_date]).order(:date_operation).order(:id).reverse_order.each do |o| %>
 				<% if(o.movement == "input") %>
 					<tr class="success">
 				<% else %>

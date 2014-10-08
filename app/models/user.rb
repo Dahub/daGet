@@ -28,15 +28,18 @@
 	end
 	
 	def self.add_user(to_add)
-		# crypt password
-		to_add.password = Digest::SHA2.hexdigest(to_add.password)
-		to_add.password_confirmation = Digest::SHA2.hexdigest(to_add.password_confirmation)
-		
-		# add defaults operations
-		OperationClassificationDefault.all.each do |o|
-			to_add.operation_classifications << (OperationClassification.new(wording: o.wording))
+		if User.count <= 5
+			# crypt password
+			to_add.password = Digest::SHA2.hexdigest(to_add.password)
+			to_add.password_confirmation = Digest::SHA2.hexdigest(to_add.password_confirmation)
+			
+			# add defaults operations
+			OperationClassificationDefault.all.each do |o|
+				to_add.operation_classifications << (OperationClassification.new(wording: o.wording))
+			end
+			
+			to_add.save
 		end
-		
-		to_add.save
+		return to_add
 	end
 end

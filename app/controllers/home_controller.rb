@@ -8,14 +8,12 @@ class HomeController < ApplicationController
 			redirect_to action: 'index'
 		end	
 		if request.post?
-			#@user = User.where(:username=>params[:user][:username]).where(:password=>Digest::SHA2.hexdigest(params[:user][:password])).first	
 			@user = User.get_by_login_and_password(params[:user][:username], params[:user][:password])
 			if @user != nil
 				session[:current_user_id] = @user.id
 				redirect_to action: 'index'
 			end
-		else	
-			# print Rails.logger.info("requete GET")
+		else				
 			@user = User.new
 		end
 	end
