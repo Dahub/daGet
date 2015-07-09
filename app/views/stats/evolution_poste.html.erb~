@@ -74,8 +74,13 @@
 			format: "json"
 		}).done(
 			function(jsonData) {
+				// var chartData = [];
+				// for(var i = 0; i<jsonData.length; i++){					
+				//	chartData.push([jsonData[i][0] * 1000, jsonData[i][1]]);
+				// }
 				var outputData = [];
 			 	var inputData = [];
+//alert(jsonData.output[0][0]);
 				for(var i = 0; i<jsonData.output.length; i++){
 					outputData.push([jsonData.output[i][0] * 1000, jsonData.output[i][1]]);					
 				}
@@ -116,6 +121,13 @@
 						color: "green"
 					}
 				];
+
+				//var data = [
+				//	{
+				//		data: chartData,
+				//		color: "orange"
+				//	}
+				//];
 				$.plot($("#flot-bar-chart"), data, options);
 
 				$("<div id='tooltip'></div>").css({
@@ -138,7 +150,9 @@
 					} else {
 						$("#tooltip").hide();
 					}					
-				});						
+				});
+
+						
 			}
 		).fail(
 			function() {
