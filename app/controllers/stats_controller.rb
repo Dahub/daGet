@@ -60,27 +60,25 @@ class StatsController < ApplicationController
 			i = 0 
 			until i == 12
 				@my_date = (Date.today << i).beginning_of_month.to_date.to_time.utc.to_i			
-				@to_push = Array.new
-				@to_push.push(@my_date)
-				@my_sum = 0
+				
+				@my_input_sum = 0
+				@my_output_sum = 0
 				if @my_input_operations[@my_date] != nil
-					@my_sum -= @my_input_operations[@my_date].collect(&:amount).sum
+					@my_input_sum = -1 * @my_input_operations[@my_date].collect(&:amount).sum
 				end
 				if @my_output_operations[@my_date] != nil
-					@my_sum += @my_output_operations[@my_date].collect(&:amount).sum
+					@my_output_sum = @my_output_operations[@my_date].collect(&:amount).sum
 				end
-
-				if @my_sum > 0					
-					@to_push.push(@my_sum)
-					@my_output_array.push(@to_push)
-					
-					addZero(@my_input_array, @my_date)
-				else					
-					@to_push.push(@my_sum)
-					@my_input_array.push(@to_push)
-
-					addZero(@my_output_array, @my_date)
-				end
+							
+				@to_push = Array.new
+				@to_push.push(@my_date)
+				@to_push.push(@my_output_sum)
+				@my_output_array.push(@to_push)	
+							
+				@to_push = Array.new
+				@to_push.push(@my_date)	
+				@to_push.push(@my_input_sum)
+				@my_input_array.push(@to_push)
 				
 				i += 1 
 			end 			
@@ -93,10 +91,4 @@ class StatsController < ApplicationController
 		end
 	end
 
-	def addZero(my_array, my_date)
-		@to_push = Array.new
-		@to_push.push(my_date)
-		@to_push.push(0)
-		my_array.push(@to_push)
-	end
 end
