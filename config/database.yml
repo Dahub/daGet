@@ -15,7 +15,7 @@ development:
   database: daget
   pool: 5
   username: david 
-  password: krel1v36qq78j
+  password: 
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
