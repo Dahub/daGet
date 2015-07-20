@@ -22,6 +22,12 @@ class BankAccount < ActiveRecord::Base
 		"#{final_amount} #{devise.symbol}"
 	end 
 	
+	def current_final_amout()
+	  #get all actives operations (0 == output, 1 == input)
+	  to_return = final_amount - Operation.where(bank_account_id: id).where(movement: 0).where(operation_valid:'not_ok').sum(:amount)
+	  to_return + Operation.where(bank_account_id: id).where(movement: 1).where(operation_valid:'not_ok').sum(:amount)
+	end
+	
 	def addBankAccount(my_user_id)
 		self.user_id = my_user_id
 		rebuild_final_amount()

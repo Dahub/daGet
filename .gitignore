@@ -19,4 +19,6 @@
 
 README.rdoc~
 key
-key.pub
+key.pubbackupDB
+config/database.yml
+backupDB/2015_07_06

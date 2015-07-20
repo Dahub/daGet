@@ -16,6 +16,7 @@
 	</div>
 	<div class="col-md-6">
 		<h3>Solde : <%= number_to_currency(@bankAccount.final_amount, unit: @bankAccount.devise.symbol, format: "%n %u") %></h3>
+		<h5>Actuel : <%= number_to_currency(@bankAccount.current_final_amout(), unit: @bankAccount.devise.symbol, format: "%n %u")%></h5>
 	</div>
 
 </div>
