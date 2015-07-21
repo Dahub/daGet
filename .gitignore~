@@ -21,4 +21,4 @@ README.rdoc~
 key
 key.pubbackupDB
 config/database.yml
-backupDB/*
+backupDB/2015_07_06
