@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 	get 'users/new'
 	post 'users/create'
 	
+	get 'stats/evolution_solde'
+	post 'stats/evolution_solde_data'
 	get 'stats/operation_distribution'
 	post 'stats/operation_distribution_data'
 	get '/stats/evolution_poste'

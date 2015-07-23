@@ -15,6 +15,31 @@ class StatsController < ApplicationController
 		end
 	end
 	
+	def evolution_solde
+  end
+  
+  def evolution_solde_data
+  @my_bank_account = BankAccount.find(params[:bank_account_id])
+    if(check_if_user_own_bank_account(@my_bank_account))
+      @my_array = Array.new    
+      @current_amount = @my_bank_account.current_final_amout
+      (0..Date.today.day).each do |i|
+        @to_push = Array.new
+        @to_push.push(Date.today.day - i)
+        #enlever toutes les opérations closes des jours suivants
+        
+        @my_output_sum = @current_amount + @my_bank_account.operations.where('date_operation > ?', Date.today - i.day).where(operation_valid:1).sum(:amount)
+        @to_push.push(@my_output_sum)
+        
+        @my_array.push(@to_push)        
+      end       
+        
+      render :json => {
+                :result =>  @my_array
+              }     
+    end  
+  end
+	
 	def operation_distribution
 	end
 	
