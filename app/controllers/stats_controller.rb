@@ -28,7 +28,8 @@ class StatsController < ApplicationController
         @to_push.push(Date.today.day - i)
         #enlever toutes les opérations closes des jours suivants
         
-        @my_output_sum = @current_amount + @my_bank_account.operations.where('date_operation > ?', Date.today - i.day).where(operation_valid:1).sum(:amount)
+        @my_output_sum = @current_amount + @my_bank_account.operations.where('date_operation > ?', Date.today - i.day).where(operation_valid:1).where(movement:0).sum(:amount)
+        @my_output_sum = @my_output_sum - @my_bank_account.operations.where('date_operation > ?', Date.today - i.day).where(operation_valid:1).where(movement:1).sum(:amount)
         @to_push.push(@my_output_sum)
         
         @my_array.push(@to_push)        
