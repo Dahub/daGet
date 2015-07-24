@@ -19,24 +19,35 @@ class StatsController < ApplicationController
   end
   
   def evolution_solde_data
-  @my_bank_account = BankAccount.find(params[:bank_account_id])
+    @my_bank_account = BankAccount.find(params[:bank_account_id])
     if(check_if_user_own_bank_account(@my_bank_account))
-      @my_array = Array.new    
+      @my_array = Array.new  
+      @my_array_prev = Array.new  
       @current_amount = @my_bank_account.current_final_amout
-      (0..Date.today.day).each do |i|
+      @end_of_month = Date.today.end_of_month
+      (0..@end_of_month.day).each do |i|
+        
         @to_push = Array.new
-        @to_push.push(Date.today.day - i)
-        #enlever toutes les opérations closes des jours suivants
+        @to_push_prev = Array.new
+        @to_push.push(@end_of_month.day - i)
+        @to_push_prev.push(@end_of_month.day - i)
         
-        @my_output_sum = @current_amount + @my_bank_account.operations.where('date_operation > ?', Date.today - i.day).where(operation_valid:1).where(movement:0).sum(:amount)
-        @my_output_sum = @my_output_sum - @my_bank_account.operations.where('date_operation > ?', Date.today - i.day).where(operation_valid:1).where(movement:1).sum(:amount)
-        @to_push.push(@my_output_sum)
+        #enlever toutes les opérations closes des jours suivants        
+        @my_output_sum = @current_amount + @my_bank_account.operations.where('date_operation > ?', @end_of_month - i.day).where(operation_valid:1).where(movement:0).sum(:amount)
+        @my_output_sum = @my_output_sum - @my_bank_account.operations.where('date_operation > ?', @end_of_month - i.day).where(operation_valid:1).where(movement:1).sum(:amount)
+        @to_push.push(@my_output_sum)        
+        @my_array.push(@to_push)    
         
-        @my_array.push(@to_push)        
+        #seconde série, toutes opérations confondues
+        @my_output_sum = @my_bank_account.final_amount + @my_bank_account.operations.where('date_operation > ?', @end_of_month - i.day).where(movement:0).sum(:amount)   
+        @my_output_sum = @my_output_sum - @my_bank_account.operations.where('date_operation > ?', @end_of_month - i.day).where(movement:1).sum(:amount) 
+        @to_push_prev.push(@my_output_sum)
+        @my_array_prev.push(@to_push_prev)
       end       
         
       render :json => {
-                :result =>  @my_array
+                :result =>  @my_array,
+                :result_prev => @my_array_prev
               }     
     end  
   end
